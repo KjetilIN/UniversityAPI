@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"os"
 	"uniapi/handlers"
+	"uniapi/mock"
 	"uniapi/serverstats"
 )
 
@@ -26,6 +27,9 @@ func main(){
 	//Handlers
 	http.HandleFunc(handlers.DEFAULT_PATH, handlers.DefaultHandler)
 	http.HandleFunc(handlers.DIAG_PATH, handlers.DiagHandler)
+
+	http.HandleFunc(handlers.MOCK_COUNTRY_PATH, mock.CountryMockHandler)
+	http.HandleFunc(handlers.MOCK_UNI_PATH, mock.UniMockHandler)
 
 	//Start Server
 	log.Println("Starting server on port " + port + "...")
