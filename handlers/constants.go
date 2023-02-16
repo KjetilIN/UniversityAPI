@@ -13,6 +13,10 @@ const MOCK_UNI_PATH = "/mock/uni"
 const MOCK_COUNTRY_PATH ="/mock/contry"
 
 //URL const
-const UNI_API_URL = "http://universities.hipolabs.com/"
-const COUNTRY_API_URL = "https://restcountries.com/"
+const UNI_API_URL = "http://localhost:8080/mock/uni"
+const COUNTRY_API_URL = "http://localhost:8080/mock/contry"
+
+
+const UNI_API_URL_PROD = "http://universities.hipolabs.com/"
+const COUNTRY_API_URL_PROD = "https://restcountries.com/"
 

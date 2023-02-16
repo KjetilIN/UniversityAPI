@@ -1,111 +1,110 @@
 [
-    {
-      "domains": [
-        "aho.no"
-      ],
-      "country": "Norway",
-      "alpha_two_code": "NO",
-      "web_pages": [
-        "http://www.aho.no/"
-      ],
-      "state-province": null,
-      "name": "Oslo School of Architecture"
-    },
-    {
-      "domains": [
-        "bi.no"
-      ],
-      "country": "Norway",
-      "alpha_two_code": "NO",
-      "web_pages": [
-        "http://www.bi.no/"
-      ],
-      "state-province": null,
-      "name": "Norwegian School of Management BI"
-    },
-    {
-      "domains": [
-        "hia.no"
-      ],
-      "country": "Norway",
-      "alpha_two_code": "NO",
-      "web_pages": [
-        "http://www.hia.no/"
-      ],
-      "state-province": null,
-      "name": "Agder University College"
-    },
-    {
-      "domains": [
-        "hib.no"
-      ],
-      "country": "Norway",
-      "alpha_two_code": "NO",
-      "web_pages": [
-        "http://www.hib.no/"
-      ],
-      "state-province": null,
-      "name": "Bergen University College"
-    },
-    {
-      "domains": [
-        "hibo.no"
-      ],
-      "country": "Norway",
-      "alpha_two_code": "NO",
-      "web_pages": [
-        "http://www.hibo.no/"
-      ],
-      "state-province": null,
-      "name": "Bodo Regional University"
-    },
-    {
-      "domains": [
-        "hifm.no"
-      ],
-      "country": "Norway",
-      "alpha_two_code": "NO",
-      "web_pages": [
-        "http://www.hifm.no/"
-      ],
-      "state-province": null,
-      "name": "Finnmark University College"
-    },
-    {
-      "domains": [
-        "hil.no"
-      ],
-      "country": "Norway",
-      "alpha_two_code": "NO",
-      "web_pages": [
-        "http://www.hil.no/"
-      ],
-      "state-province": null,
-      "name": "Lillehammer University College"
-    },
-    {
-      "domains": [
-        "himolde.no"
-      ],
-      "country": "Norway",
-      "alpha_two_code": "NO",
-      "web_pages": [
-        "http://www.himolde.no/"
-      ],
-      "state-province": null,
-      "name": "Molde University College"
-    },
-    {
-      "domains": [
-        "khio.no"
-      ],
-      "country": "Norway",
-      "alpha_two_code": "NO",
-      "web_pages": [
-        "http://www.khio.no/shks/"
-      ],
-      "state-province": null,
-      "name": "National College of Art and Design"
-    }
-
+  {
+    "domains": [
+      "aho.no"
+    ],
+    "country": "Norway",
+    "alpha_two_code": "NO",
+    "web_pages": [
+      "http://www.aho.no/"
+    ],
+    "state-province": null,
+    "name": "Oslo School of Architecture"
+  },
+  {
+    "domains": [
+      "bi.no"
+    ],
+    "country": "Norway",
+    "alpha_two_code": "NO",
+    "web_pages": [
+      "http://www.bi.no/"
+    ],
+    "state-province": null,
+    "name": "Norwegian School of Management BI"
+  },
+  {
+    "domains": [
+      "hia.no"
+    ],
+    "country": "Norway",
+    "alpha_two_code": "NO",
+    "web_pages": [
+      "http://www.hia.no/"
+    ],
+    "state-province": null,
+    "name": "Agder University College"
+  },
+  {
+    "domains": [
+      "hib.no"
+    ],
+    "country": "Norway",
+    "alpha_two_code": "NO",
+    "web_pages": [
+      "http://www.hib.no/"
+    ],
+    "state-province": null,
+    "name": "Bergen University College"
+  },
+  {
+    "domains": [
+      "hibo.no"
+    ],
+    "country": "Norway",
+    "alpha_two_code": "NO",
+    "web_pages": [
+      "http://www.hibo.no/"
+    ],
+    "state-province": null,
+    "name": "Bodo Regional University"
+  },
+  {
+    "domains": [
+      "hifm.no"
+    ],
+    "country": "Norway",
+    "alpha_two_code": "NO",
+    "web_pages": [
+      "http://www.hifm.no/"
+    ],
+    "state-province": null,
+    "name": "Finnmark University College"
+  },
+  {
+    "domains": [
+      "hil.no"
+    ],
+    "country": "Norway",
+    "alpha_two_code": "NO",
+    "web_pages": [
+      "http://www.hil.no/"
+    ],
+    "state-province": null,
+    "name": "Lillehammer University College"
+  },
+  {
+    "domains": [
+      "himolde.no"
+    ],
+    "country": "Norway",
+    "alpha_two_code": "NO",
+    "web_pages": [
+      "http://www.himolde.no/"
+    ],
+    "state-province": null,
+    "name": "Molde University College"
+  },
+  {
+    "domains": [
+      "khio.no"
+    ],
+    "country": "Norway",
+    "alpha_two_code": "NO",
+    "web_pages": [
+      "http://www.khio.no/shks/"
+    ],
+    "state-province": null,
+    "name": "National College of Art and Design"
+  }
 ]

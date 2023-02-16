@@ -23,3 +23,13 @@ type UniverityInfo struct {
 	Languages []string `json:"languages"`
 	MapLink string `json:"map"`
 }
+
+
+// Struct used by encoder to get the information from the university api
+
+type UniStuct struct{
+	Name string `json:"name"`
+	Country string `json:"country"`
+	Isocode string `json:"alpha_two_code"`
+	Webpages []string `json:"web_pages"`
+}
