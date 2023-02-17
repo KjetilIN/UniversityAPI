@@ -11,12 +11,9 @@ jobs:
     steps:
       - name: Checkout # This step is a security check default by the GitHub. Use it once at each job.
         uses: actions/checkout@v2 # predefined by GitHub
-
       - name: Push to NTNU GitLab Workspace  # An optional Name
         env: GitLab # Importing needed variables defined in the environment.
           TOKEN: ${{ secrets.GITLAB_TOKEN}}  # Defining a variable names TOKEN in which holds the GITLAB_TOKEN defined
-                                             # in the environment(MyEnvironmentName) -> secrets
-          # For the first push, An owner token is needed.
         run: |
           echo "Pushing to NTNU GitLab-Work-Space:" # An example of log message to be checked in the GitHub action's section
           # We push code to Github first, and Github pushes using its own bash
