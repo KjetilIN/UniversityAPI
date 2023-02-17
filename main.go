@@ -29,6 +29,7 @@ func main(){
 	http.HandleFunc(handlers.DIAG_PATH, handlers.DiagHandler)
 	http.HandleFunc(handlers.UNI_INFO_PATH, handlers.UniInfoHandler)
 
+	//Mock handlers
 	http.HandleFunc(handlers.MOCK_COUNTRY_PATH, mock.CountryMockHandler)
 	http.HandleFunc(handlers.MOCK_UNI_PATH, mock.UniMockHandler)
 
