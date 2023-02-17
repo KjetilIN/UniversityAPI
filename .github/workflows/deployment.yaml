@@ -13,7 +13,7 @@ jobs:
         uses: actions/checkout@v2 # predefined by GitHub
 
       - name: Push to NTNU GitLab Workspace  # An optional Name
-        env: GitHubEnv # Importing needed variables defined in the environment.
+        env: # Importing needed variables defined in the environment.
           TOKEN: ${{ secrets.GITLAB_TOKEN}}  # Defining a variable names TOKEN in which holds the GITLAB_TOKEN defined
         run: |
           echo "Pushing to NTNU GitLab-Work-Space:" # An example of log message to be checked in the GitHub action's section
