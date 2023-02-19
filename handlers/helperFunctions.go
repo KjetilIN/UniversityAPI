@@ -38,9 +38,9 @@ func getFromUniAPI(searchWord string) (*http.Response, error) {
 
 
 //Function that setup the GET request and return response and error 
-func getFromCountryApi(country string) (*http.Response, error) {
+func getFromCountryNameApi(country string) (*http.Response, error) {
 	// URL
-	url := COUNTRY_API_URL_PROD + "/" + country
+	url := COUNTRY_API_NAME_URL_PROD + "/" + country
 	log.Println("Request on : ", url)
 
 	// Create a new GET request
@@ -59,10 +59,41 @@ func getFromCountryApi(country string) (*http.Response, error) {
 	return resp, err
 }
 
+
+//Function gets the country name from the api
+func getCountryFromAplhaCode(code string) (string, error) {
+	// URL
+	url := COUNTRY_API_ALPHA_URL_PROD + "/" + code
+	log.Println("Request on : ", url)
+
+	// Create a new GET request
+	req, err := http.NewRequest("GET", url , nil)
+	if err != nil {
+		return "", err
+	}
+
+	// Send the request using the shared http.Client
+	resp, err := httpClient.Do(req)
+	if err != nil {
+		return "", err
+	}
+
+	//Prepera to populate the border countries struct
+	var countryNames []CountryName
+
+	decodeError := json.NewDecoder(resp.Body).Decode(&countryNames);
+	if decodeError != nil{
+		return "", err
+	}
+
+	// Return the response and any errors
+	return countryNames[0].Name.Common , err
+}
+
 //Get the list of alpha codes from the body
 func getBorderCountry(country string) ([]string, error){
 	// Create a new GET request
-	req, err := http.NewRequest("GET", COUNTRY_API_URL_PROD +"/" + country, nil)
+	req, err := http.NewRequest("GET", COUNTRY_API_NAME_URL_PROD +"/" + country, nil)
 	if err != nil {
 		return nil, err
 	}
@@ -86,3 +117,83 @@ func getBorderCountry(country string) ([]string, error){
 
 	return borderCountrys[0].Borders, nil
 }
+
+
+//Function that setup the GET request and return response and error 
+func getAllFromUniAPI(country string, middle string) (*http.Response, error) {
+	// URL
+	url := UNI_API_URL_PROD + "/search?name=" + middle +"&country=" + country
+	log.Println("Request on : ", url)
+
+	// Create a new GET request
+	req, err := http.NewRequest("GET", url , nil)
+	if err != nil {
+		return nil, err
+	}
+
+	// Send the request using the shared http.Client
+	resp, err := httpClient.Do(req)
+	if err != nil {
+		return nil, err
+	}
+
+	// Return the response and any errors
+	return resp, err
+}
+
+
+
+func addCountryInfoByName(w http.ResponseWriter, resp http.Response) ([]UniversityInfo){
+	// Prepare empty list of structs to populate 
+	var uniStructs []UniStuct
+
+	// Decode structs
+	err := json.NewDecoder(resp.Body).Decode(&uniStructs)
+	if err != nil {
+		http.Error(w, "Error during decoding: "+err.Error(), http.StatusBadRequest)
+		return nil; 
+	}
+
+	//The final response to the 
+	var uniInfoResponse []UniversityInfo
+
+	//Loop over each of the university and add the langauges
+	var currentCountryInfo []CountryInfo
+	var currentCountry string
+
+	for _, uni := range uniStructs{
+
+		if(uni.Country != currentCountry){
+			// DO API REQUEST and set the new countryinfo stuct
+			countryResponse, countryErr := getFromCountryNameApi(uni.Country)
+			if countryErr != nil {
+				http.Error(w, "ContryRepsonse error!", http.StatusBadRequest)
+				return nil;
+			}
+			defer countryResponse.Body.Close() //Close body always 
+
+			// Decode struct
+			err := json.NewDecoder(countryResponse.Body).Decode(&currentCountryInfo)
+			if err != nil {
+				http.Error(w, "Error during decoding of country: "+err.Error(), http.StatusBadRequest)
+				return nil;
+			}
+
+			//Sucessfully decoded the struct, so we set the new country info
+			currentCountry = uni.Country
+		}
+
+		//Build the New Struct
+		var newUniInfo UniversityInfo = UniversityInfo{ UniStuct: uni, CountryInfo: currentCountryInfo[0]};
+
+		//Add them into the response list 
+		uniInfoResponse = append(uniInfoResponse, newUniInfo)
+	}
+
+	return uniInfoResponse;
+
+
+}
+
+
+

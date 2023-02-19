@@ -24,6 +24,12 @@ type BorderCountries struct{
 	Borders []string  `json:"borders"`
 }
 
+type CountryName struct{
+	Name struct{
+		Common string `json:"common"`
+	} `json:"name"`
+}
+
 
 // Struct used by encoder to get the information from the university api
 type UniStuct struct{
