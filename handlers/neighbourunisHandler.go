@@ -7,6 +7,11 @@ import (
 )
 
 
+func getBorderCountry(country string) []string{
+	return []string{}
+}
+
+
 func NeighbourUniHandler(w http.ResponseWriter, r *http.Request) {
 	// Parse the URL path
 	path := strings.TrimSuffix(r.URL.Path, NEIGHBOUR_UNIS_PATH)

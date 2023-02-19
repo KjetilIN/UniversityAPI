@@ -14,11 +14,14 @@ type StatusInfo struct{
 	Uptime int `json:"uptime"`
 }	
 
-//Stuct with the country indo
-
+//Stuct with the country info
 type CountryInfo struct{
 	Languages map[string]string `json:"languages"`
 	Region string `json:"region"`
+}
+
+type BorderCountries struct{
+	Borders []string  `json:"borders"`
 }
 
 
