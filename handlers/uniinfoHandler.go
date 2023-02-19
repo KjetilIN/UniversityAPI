@@ -7,7 +7,7 @@ import (
 
 
 func getFromUniAPI(searchWord string) *http.Response {
-	resp, err := http.Get(UNI_API_URL)
+	resp, err := http.Get(UNI_API_URL_PROD + "/search?name="+searchWord)
 
 	if err != nil{
 		return nil
@@ -28,31 +28,23 @@ func UniInfoHandler(w http.ResponseWriter, r *http.Request){
 
 	//Doing a GET request to the UNI API
 	uniResponse := getFromUniAPI(search);
-	if uniResponse == nil{
-		http.Error(w, "No result with = " + search, http.StatusNoContent);
-		return;
-	}
+	defer uniResponse.Body.Close()
 
-
-	// Prepare empty list of structs to populate
-	uniStucts := []UniStuct{}
-
-	// Decode structs
-	err := json.NewDecoder(uniResponse.Body).Decode(&uniStucts)
-	if err != nil {
-		// Note: more often than not is this error due to client-side input, rather than server-side issues
-		http.Error(w, "Error during decoding: "+err.Error(), http.StatusBadRequest)
+	if uniResponse.StatusCode != http.StatusOK {
+		http.Error(w, "No result with = "+ search, uniResponse.StatusCode)
 		return
 	}
 
 
+	// Prepare empty list of structs to populate 
+	var uniStructs []UniStuct
 
-	//Return results 
-	encoder := json.NewEncoder(w);
-	err = encoder.Encode(uniStucts)
-
-	//Handle error
-	if err != nil{
-		http.Error(w, "Error on output!", http.StatusInternalServerError);
+	// Decode structs
+	err := json.NewDecoder(uniResponse.Body).Decode(&uniStructs)
+	if err != nil {
+		http.Error(w, "Error during decoding: "+err.Error(), http.StatusBadRequest)
+		return
 	}
+	//Return results 
+	json.NewEncoder(w).Encode(uniStructs)
 }

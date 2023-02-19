@@ -17,6 +17,6 @@ const UNI_API_URL = "http://localhost:8080/mock/uni"
 const COUNTRY_API_URL = "http://localhost:8080/mock/contry"
 
 //Production URLs
-const UNI_API_URL_PROD = "http://universities.hipolabs.com/"
-const COUNTRY_API_URL_PROD = "https://restcountries.com/"
+const UNI_API_URL_PROD = "http://universities.hipolabs.com"
+const COUNTRY_API_URL_PROD = "https://restcountries.com"
 
