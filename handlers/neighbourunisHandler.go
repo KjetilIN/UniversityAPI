@@ -29,8 +29,8 @@ func NeighbourUniHandler(w http.ResponseWriter, r *http.Request) {
 	// Check if limit is provided as a query parameter
 	limitStr := r.URL.Query().Get("limit")
 	limit, err := strconv.Atoi(limitStr)
-	log.Println(limit)
 	if(err != nil){
+		// We set the variable as 0 for no limit 
 		limit = 0
 	}
 
@@ -73,6 +73,12 @@ func NeighbourUniHandler(w http.ResponseWriter, r *http.Request) {
 		neighbourunis = append(neighbourunis, uniList...)
 
 	}
+	
+	//Take only the limit, if there is a limit amount 
+	if limit != 0{
+		neighbourunis = neighbourunis[:limit]
+	}
 
+	//Encode the result 
 	json.NewEncoder(w).Encode(neighbourunis)
 }
