@@ -14,22 +14,20 @@ type StatusInfo struct{
 	Uptime int `json:"uptime"`
 }	
 
-// University information structs used for the endpoints 
-type UniverityInfo struct {
-	Name string `json:"name"`
-	Country string `json:"country"`
-	Isocode string `json:"isocode"`
-	Webpages []string `json:"webpages"`
-	Languages []string `json:"languages"`
-	MapLink string `json:"map"`
-}
+//Stuct with the 
 
 
 // Struct used by encoder to get the information from the university api
-
 type UniStuct struct{
 	Name string `json:"name"`
 	Country string `json:"country"`
 	Isocode string `json:"alpha_two_code"`
 	Webpages []string `json:"web_pages"`
+}
+
+// University information structs used for the endpoints 
+type UniverityInfo struct {
+	UniStuct
+	Languages []string `json:"languages"`
+	MapLink string `json:"map"`
 }
