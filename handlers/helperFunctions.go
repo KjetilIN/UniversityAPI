@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
+	"sort"
 	"time"
 )
 
@@ -153,6 +154,11 @@ func addCountryInfoByName(w http.ResponseWriter, resp http.Response) ([]Universi
 		http.Error(w, "Error during decoding: "+err.Error(), http.StatusBadRequest)
 		return nil; 
 	}
+
+	// Sort the list of unistruct by country 
+    sort.Slice(uniStructs, func(i, j int) bool {
+        return uniStructs[i].Country < uniStructs[j].Country
+    })
 
 	//The final response to the 
 	var uniInfoResponse []UniversityInfo
