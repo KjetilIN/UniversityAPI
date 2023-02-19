@@ -29,6 +29,7 @@ func NeighbourUniHandler(w http.ResponseWriter, r *http.Request) {
 	// Check if limit is provided as a query parameter
 	limitStr := r.URL.Query().Get("limit")
 	limit, err := strconv.Atoi(limitStr)
+	log.Println(limit)
 	if(err != nil){
 		limit = 0
 	}
@@ -49,6 +50,7 @@ func NeighbourUniHandler(w http.ResponseWriter, r *http.Request) {
 
 	for _, code := range codes{
 		// 1. Get the country name by alpha code 
+		log.Println("Getting info from " + code)
 		currentCountryName, err := getCountryFromAplhaCode(code);
 		if err != nil{
 			http.Error(w, "Not correct alpha code for; " + code, http.StatusBadRequest)
@@ -72,8 +74,5 @@ func NeighbourUniHandler(w http.ResponseWriter, r *http.Request) {
 
 	}
 
-	log.Println(limit)
-
 	json.NewEncoder(w).Encode(neighbourunis)
-	
 }

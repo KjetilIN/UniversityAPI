@@ -111,7 +111,7 @@ func getBorderCountry(country string) ([]string, error){
 	//Prepera to populate the border countries struct
 	var borderCountrys []BorderCountries
 
-	decodeError := json.NewDecoder(req.Body).Decode(&borderCountrys);
+	decodeError := json.NewDecoder(resp.Body).Decode(&borderCountrys);
 	if decodeError != nil{
 		return nil, err
 	}
