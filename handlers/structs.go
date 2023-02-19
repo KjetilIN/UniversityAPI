@@ -14,7 +14,12 @@ type StatusInfo struct{
 	Uptime int `json:"uptime"`
 }	
 
-//Stuct with the 
+//Stuct with the country indo
+
+type CountryInfo struct{
+	Languages map[string]string `json:"languages"`
+	Region string `json:"region"`
+}
 
 
 // Struct used by encoder to get the information from the university api
@@ -26,8 +31,7 @@ type UniStuct struct{
 }
 
 // University information structs used for the endpoints 
-type UniverityInfo struct {
+type UniversityInfo struct {
 	UniStuct
-	Languages []string `json:"languages"`
-	MapLink string `json:"map"`
+	CountryInfo
 }

@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"encoding/json"
+	"log"
 	"net/http"
 	"strings"
 	"time"
@@ -25,6 +26,30 @@ func getFromUniAPI(searchWord string) (*http.Response, error) {
 	q := req.URL.Query()
 	q.Add("name", searchWord)
 	req.URL.RawQuery = q.Encode()
+
+	// Send the request using the shared http.Client
+	resp, err := httpClient.Do(req)
+	if err != nil {
+		return nil, err
+	}
+
+	// Return the response and any errors
+	return resp, err
+}
+
+
+
+//Function that setup the GET request and return response and error 
+func getFromCountryApi(country string) (*http.Response, error) {
+	// URL
+	url := COUNTRY_API_URL_PROD + "/" + country
+	log.Println("Request on : ", url)
+
+	// Create a new GET request
+	req, err := http.NewRequest("GET", url , nil)
+	if err != nil {
+		return nil, err
+	}
 
 	// Send the request using the shared http.Client
 	resp, err := httpClient.Do(req)
@@ -68,6 +93,44 @@ func UniInfoHandler(w http.ResponseWriter, r *http.Request){
 		http.Error(w, "Error during decoding: "+err.Error(), http.StatusBadRequest)
 		return
 	}
+
+	//The final response to the 
+	var uniInfoResponse []UniversityInfo
+
+	//Loop over each of the university and add the langauges
+	var currentCountryInfo []CountryInfo
+	var currentCountry string
+
+	for _, uni := range uniStructs{
+
+		if(uni.Country != currentCountry){
+			// DO API REQUEST and set the new countryinfo stuct
+			countryResponse, countryErr := getFromCountryApi(uni.Country)
+			if countryErr != nil {
+				http.Error(w, "ContryRepsonse error!", http.StatusBadRequest)
+				return 
+			}
+			defer countryResponse.Body.Close() //Close body always 
+
+			// Decode struct
+			err := json.NewDecoder(countryResponse.Body).Decode(&currentCountryInfo)
+			if err != nil {
+				http.Error(w, "Error during decoding of country: "+err.Error(), http.StatusBadRequest)
+				return
+			}
+
+			//Sucessfully decoded the struct, so we set the new country info
+			currentCountry = uni.Country
+		}
+
+		//Build the New Struct
+		var newUniInfo UniversityInfo = UniversityInfo{ UniStuct: uni, CountryInfo: currentCountryInfo[0]};
+
+		//Add them into the response list 
+		uniInfoResponse = append(uniInfoResponse, newUniInfo)
+	}
+
+
 	//Return results 
-	json.NewEncoder(w).Encode(uniStructs)
+	json.NewEncoder(w).Encode(uniInfoResponse)
 }
