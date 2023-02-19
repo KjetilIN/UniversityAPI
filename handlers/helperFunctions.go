@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"encoding/json"
 	"log"
 	"net/http"
 	"time"
@@ -56,4 +57,32 @@ func getFromCountryApi(country string) (*http.Response, error) {
 
 	// Return the response and any errors
 	return resp, err
+}
+
+//Get the list of alpha codes from the body
+func getBorderCountry(country string) ([]string, error){
+	// Create a new GET request
+	req, err := http.NewRequest("GET", COUNTRY_API_URL_PROD +"/" + country, nil)
+	if err != nil {
+		return nil, err
+	}
+
+	log.Println("Border Counties Req: ", req.URL)
+
+	// Send the request using the shared http.Client
+	resp, err := httpClient.Do(req)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+
+	//Prepera to populate the border countries struct
+	var borderCountrys []BorderCountries
+
+	decodeError := json.NewDecoder(req.Body).Decode(&borderCountrys);
+	if decodeError != nil{
+		return nil, err
+	}
+
+	return borderCountrys[0].Borders, nil
 }
