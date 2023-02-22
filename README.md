@@ -3,6 +3,7 @@
 The UniversityAPI service provides a RESTful API for retrieving information about universities in various countries. It allows users to query for universities by name or country, and returns data on the university's country, website, languages spoken and more. It uses third-party APIs to gather data from universities and countries. The service is built using the Go programming language and follows best practices for scalable and maintainable code, including a modular architecture and well-documented API endpoints. Whether you're a student researching potential universities, or a developer looking for a lightweight API to integrate into your application, the UniversityAPI service provides an easy-to-use and efficient solution.
 
 > Assignment 1 <br>
+> Version: V1 <br>
 > PROG2005 Cloud Technologies (2023 VÅR)<br>
 
 
@@ -11,16 +12,16 @@ The UniversityAPI service provides a RESTful API for retrieving information abou
 The service provide a set of endpoints:
 
 ```
-/unisearcher/v1/uniinfo/
-/unisearcher/v1/neighbourunis/
-/unisearcher/v1/diag/
+/unisearcher/{VERSION}/uniinfo/
+/unisearcher/{VERSION}/neighbourunis/
+/unisearcher/{VERSION}/diag/
 ```
 
 Each endpoint has to be used in a certain way. There will be a response that can give you a hint of what is done wrong.
 
 ## University Information 
 > Method: GET <br>
-> Path: uniinfo/{:partial_or_complete_university_name}/
+> Path: unisearcher/{VERSION}/uniinfo/{:partial_or_complete_university_name}/
 
 
 This endpoint is uses the partial or complete name for the university. 
@@ -66,7 +67,7 @@ Example response:
 ## University Neighbors 
 
 >Method: GET <br>
->Path: neighbourunis/{:country_name}/{:partial_or_complete_university_name}{?limit={:number}}
+>Path: unisearcher/{VERSION}/neighbourunis/{:country_name}/{:partial_or_complete_university_name}{?limit={:number}}
 
 Given a country and a partial name of the university, this endpoints find information for all countries that are a neighbor country.
 This does not include the universities from the country given. This endpoint will be the same structure as the `uniinfo` endpoint. 
@@ -75,7 +76,7 @@ This does not include the universities from the country given. This endpoint wil
 ## Diagnostic Endpoint
 
 > Method: GET
-> Path: diag/
+> Path: unisearcher/{VERSION}/diag/
 
 To check if all third party endpoints are up, and some additional server information, use this endpoint.
 Additionally some information on the server. 
@@ -95,10 +96,17 @@ Response:
 
 # Third Party APIs. 
 
-The service is dependent on third party APIs.
-The main value is 
+ This service utilizes third-party APIs to retrieve and process data for its endpoints. See the `diag` endpoint for checking if all endpoints works as expected. The API integrates with external services to provide information on university data and country data. The use of third-party APIs enables the service to offer a wider range of features and functionalities while reducing the need for extensive data storage and processing on its servers.
 
 ### UNI API
+
+
+The University API is a RESTful service that allows you to get information about universities in Norway. With this API, you can get the names of universities, the number of students enrolled, the number of faculties, and other details. The service uses third-party APIs to collect data about universities and then formats it into a JSON response.
+
+To use the University API, you can make GET requests to the various endpoints provided by the service. The API provides endpoints to get the list of universities, detailed information about a specific university, and information about neighboring universities. You can use this information to create web applications or dashboards that display information about universities in Norway.
+
+The code for the University API is available on GitHub at https://github.com/username/UniversityAPI. You can clone the repository and run the service on your local machine or deploy it to a cloud platform like AWS or Heroku. The API is written in Golang and uses popular libraries like Gorilla Mux for routing and handling HTTP requests.
+
 
 - Link: `http://universities.hipolabs.com/search?name={NAME}&country={COUNTRY}`
 
