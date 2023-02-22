@@ -8,7 +8,7 @@ import (
 	"time"
 )
 
-// Create a reusable http.Client that is used by the uniinfo handler
+// Create a reusable http.Client that is used by the uni info handler
 var httpClient = &http.Client{
 	Timeout: time.Second * 10, // Add a timeout to avoid hanging connections
 }
@@ -48,7 +48,7 @@ func getFromCountryFromName(country string) (*http.Response, error) {
 		return nil, err
 	}
 
-	//Loggin the request
+	//Logging the request
 	log.Println("GET country name: ", URL)
 
 	// Send the request using the shared http.Client
@@ -62,7 +62,7 @@ func getFromCountryFromName(country string) (*http.Response, error) {
 }
 
 // Function gets the country name from the api
-func getCountryFromAplhaCode(code string) (string, error) {
+func getCountryFromAlphaCode(code string) (string, error) {
 	// URL
 	URL := COUNTRY_API_ALPHA_URL_PROD + "/" + code
 
@@ -73,7 +73,7 @@ func getCountryFromAplhaCode(code string) (string, error) {
 	}
 
 	//Logging the request
-	log.Println("GET country by Aplha code: ", URL)
+	log.Println("GET country by Alpha code: ", URL)
 
 	// Send the request using the shared http.Client
 	resp, err := httpClient.Do(req)
@@ -81,7 +81,7 @@ func getCountryFromAplhaCode(code string) (string, error) {
 		return "", err
 	}
 
-	//Prepera to populate the border countries struct
+	//Prepare to populate the border countries struct
 	var countryNames []CountryName
 
 	decodeError := json.NewDecoder(resp.Body).Decode(&countryNames)
@@ -113,15 +113,15 @@ func getBorderCountry(country string) ([]string, error) {
 		return nil, err
 	}
 
-	//Prepera to populate the border countries struct and then decoding it 
-	var borderCountrys []BorderCountries
+	//Prepare to populate the border countries struct and then decoding it 
+	var borderCountries []BorderCountries
 
-	decodeError := json.NewDecoder(resp.Body).Decode(&borderCountrys)
+	decodeError := json.NewDecoder(resp.Body).Decode(&borderCountries)
 	if decodeError != nil {
 		return nil, err
 	}
 
-	return borderCountrys[0].Borders, nil
+	return borderCountries[0].Borders, nil
 }
 
 // Function that setup the GET request and return response and error
@@ -148,10 +148,10 @@ func getAllFromUniAPI(country string, middle string) (*http.Response, error) {
 	return resp, err
 }
 
-// Takes the response from the UniApi and repsonsewriter. Returns list of UniversityInfo
-func addCountryInfoByName(w http.ResponseWriter, uniStructs []UniStuct) []UniversityInfo {
+// Takes the response from the UniApi and responsewriter. Returns list of UniversityInfo
+func addCountryInfoByName(w http.ResponseWriter, uniStructs []UniStruct) []UniversityInfo {
 
-	// Sort the list of unistruct by country
+	// Sort the list of uni struct by country
 	sort.Slice(uniStructs, func(i, j int) bool {
 		return uniStructs[i].Country < uniStructs[j].Country
 	})
@@ -159,17 +159,17 @@ func addCountryInfoByName(w http.ResponseWriter, uniStructs []UniStuct) []Univer
 	//The final response to the
 	var uniInfoResponse []UniversityInfo
 
-	//Loop over each of the university and add the langauges
+	//Loop over each of the university and add the languages
 	var currentCountryInfo []CountryInfo
 	var currentCountry string
 
 	for _, uni := range uniStructs {
-		// Only do a new GET request if the University is in a diffrent contry. Only one get request
+		// Only do a new GET request if the University is in a different country. Only one get request
 		if uni.Country != currentCountry {
-			// DO API REQUEST and set the new countryinfo stuct
+			// DO API REQUEST and set the new country info struct
 			countryResponse, countryErr := getFromCountryFromName(uni.Country)
 			if countryErr != nil {
-				http.Error(w, "ContryRepsonse error!", http.StatusBadRequest)
+				http.Error(w, "Country Response error!", http.StatusBadRequest)
 				return nil
 			}
 
@@ -180,12 +180,12 @@ func addCountryInfoByName(w http.ResponseWriter, uniStructs []UniStuct) []Univer
 				return nil
 			}
 
-			//Sucessfully decoded the struct, so we set the new country info
+			//Successfully decoded the struct, so we set the new country info
 			currentCountry = uni.Country
 		}
 
 		//Build the New Struct
-		var newUniInfo UniversityInfo = UniversityInfo{UniStuct: uni, CountryInfo: currentCountryInfo[0]}
+		var newUniInfo UniversityInfo = UniversityInfo{UniStruct: uni, CountryInfo: currentCountryInfo[0]}
 
 		//Add them into the response list
 		uniInfoResponse = append(uniInfoResponse, newUniInfo)

@@ -32,7 +32,7 @@ type CountryName struct{
 
 
 // Struct used by encoder to get the information from the university api
-type UniStuct struct{
+type UniStruct struct{
 	Name string `json:"name"`
 	Country string `json:"country"`
 	Isocode string `json:"alpha_two_code"`
@@ -41,6 +41,6 @@ type UniStuct struct{
 
 // University information structs used for the endpoints 
 type UniversityInfo struct {
-	UniStuct
+	UniStruct
 	CountryInfo
 }

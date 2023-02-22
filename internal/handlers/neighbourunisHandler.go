@@ -2,23 +2,22 @@ package handlers
 
 import (
 	"encoding/json"
-	"log"
 	"net/http"
 	"strconv"
 	"strings"
 )
 
-func NeighbourUniHandler(w http.ResponseWriter, r *http.Request) {
+func NeighborUniHandler(w http.ResponseWriter, r *http.Request) {
 	//Setting header content
 	w.Header().Set("content-type", "application/json")
 
 	// Parse the URL path
-	path := strings.TrimSuffix(r.URL.Path, NEIGHBOUR_UNIS_PATH)
+	path := strings.TrimSuffix(r.URL.Path, NEIGHBOR_UNIS_PATH)
 	pathParts := strings.Split(path, "/")
 
 	// Check if path contains required variables
 	if len(pathParts) < 6 {
-		http.Error(w, "Invalid request path. Needs both country and middle: \nneighbourunis/{:country_name}/{:partial_or_complete_university_name}{?limit={:number}} ", http.StatusBadRequest)
+		http.Error(w, "Invalid request path. Needs both country and middle: \n neighbourunis/{:country_name}/{:partial_or_complete_university_name}{?limit={:number}} ", http.StatusBadRequest)
 		return
 	}
 
@@ -35,10 +34,10 @@ func NeighbourUniHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// The final response list 
-	var neighbourunis []UniversityInfo
+	var neighborUnis []UniversityInfo
 
 
-	//Get the list of ISO codes for neighbor contries;
+	//Get the list of ISO codes for neighbor countries;
 	codes, borderError := getBorderCountry(countryName);
 	if borderError != nil{
 		http.Error(w, "No border countries found", http.StatusNoContent)
@@ -47,8 +46,7 @@ func NeighbourUniHandler(w http.ResponseWriter, r *http.Request) {
 
 	for _, code := range codes{
 		// 1. Get the country name by alpha code 
-		log.Println("Getting info from " + code)
-		currentCountryName, err := getCountryFromAplhaCode(code);
+		currentCountryName, err := getCountryFromAlphaCode(code);
 		if err != nil{
 			http.Error(w, "Not correct alpha code for; " + code, http.StatusBadRequest)
 			return
@@ -63,28 +61,28 @@ func NeighbourUniHandler(w http.ResponseWriter, r *http.Request) {
 			return 
 		}
 
-		var uniStructs []UniStuct
+		var uniStruct []UniStruct
 
-		// Decode structs
-		err = json.NewDecoder(uniResponse.Body).Decode(&uniStructs)
+		// Decode struct
+		err = json.NewDecoder(uniResponse.Body).Decode(&uniStruct)
 		if err != nil {
 			http.Error(w, "Error during decoding. Happened on adding country info", http.StatusBadRequest)
 			return
 		}
 
 		//3. Add the country information for each response 
-		uniList = addCountryInfoByName(w, uniStructs)
+		uniList = addCountryInfoByName(w, uniStruct)
 
 		// 3. Add them to the struct
-		neighbourunis = append(neighbourunis, uniList...)
+		neighborUnis = append(neighborUnis, uniList...)
 
 	}
 	
 	//Take only the limit, if there is a limit amount 
 	if limit != 0{
-		neighbourunis = neighbourunis[:limit]
+		neighborUnis = neighborUnis[:limit]
 	}
 
 	//Encode the result 
-	json.NewEncoder(w).Encode(neighbourunis)
+	json.NewEncoder(w).Encode(neighborUnis)
 }

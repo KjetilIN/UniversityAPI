@@ -6,7 +6,7 @@ const VERSION = "v1"
 //Path const
 const DEFAULT_PATH = "/"
 const UNI_INFO_PATH = "/unisearcher/" + VERSION + "/uniinfo/"
-const NEIGHBOUR_UNIS_PATH = "/unisearcher/" + VERSION + "/neighbourunis/"
+const NEIGHBOR_UNIS_PATH = "/unisearcher/" + VERSION + "/neighbourunis/"
 const DIAG_PATH = "/unisearcher/" + VERSION + "/diag/"
 
 const MOCK_UNI_PATH = "/mock/uni"

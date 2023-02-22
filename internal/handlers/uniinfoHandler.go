@@ -30,7 +30,7 @@ func UniInfoHandler(w http.ResponseWriter, r *http.Request){
 	}
 
 	// Prepare empty list of structs to populate
-	var uniStructs []UniStuct
+	var uniStructs []UniStruct
 
 	// Decode structs
 	err := json.NewDecoder(uniResponse.Body).Decode(&uniStructs)

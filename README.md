@@ -6,7 +6,7 @@ Created with GoLang
 > PROG2005 Cloud Technologies (2023 VÅR)<br>
 
 
-## End Points
+## End Points & How to use them 
 
 The service provide a set of endpoints:
 
@@ -15,6 +15,9 @@ The service provide a set of endpoints:
 /unisearcher/v1/neighbourunis/
 /unisearcher/v1/diag/
 ```
+
+Each endpoint can only be used 
+
 
 
 
@@ -60,7 +63,7 @@ Response as JSON (University in Turkey):
     - `https://restcountries.com/v3.1/aplha/{COUNTRY_ALPHA}`
 
 
-JSON Response of Country (In this exsample Colombia): 
+JSON Response of Country (In this example Colombia): 
 
 ```
 [[{
@@ -116,27 +119,3 @@ JSON Response of Country (In this exsample Colombia):
 	}]
 }]
 
-
-```
-```
-UniversityAPI
-├─ go.mod
-├─ go.sum
-├─ handlers
-│  ├─ constants.go
-│  ├─ defaultHandler.go
-│  ├─ diagHandler.go
-│  ├─ helperFunctions.go
-│  ├─ neighbourunisHandler.go
-│  ├─ structs.go
-│  └─ uniinfoHandler.go
-├─ main.go
-├─ mock
-│  └─ mockHandlers.go
-├─ README.md
-├─ res
-│  ├─ norway.json
-│  └─ uni.json
-└─ serverstats
-   └─ timer.go
-```
