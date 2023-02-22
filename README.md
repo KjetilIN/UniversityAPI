@@ -16,12 +16,84 @@ The service provide a set of endpoints:
 /unisearcher/v1/diag/
 ```
 
-Each endpoint can only be used 
+Each endpoint has to be used in a certain way. There will be a response that can give you a hint of what is done wrong.
+
+## University Information 
+> Method: GET <br>
+> Path: uniinfo/{:partial_or_complete_university_name}/
 
 
+This endpoint is uses the partial or complete name for the university. 
+The response could be of different length but will always have JSON objects in the same structure:
 
 
-## Third Party APIs. 
+```
+[
+	{
+		"name": <Name of university>,
+		"country": <The country the university is in>,
+		"alpha_two_code": <Alpha two code of the country>,
+		"web_pages": [<List of website links to the university>],
+		"languages": {<Map of languages spoken by the university>},
+		"region": <Region of the university>
+	},
+	....
+]
+
+```
+
+Example response: 
+
+```
+[
+	{
+		"name": "Häme University of Applied Sciences",
+		"country": "Finland",
+		"alpha_two_code": "FI",
+		"web_pages": [
+			"https://www.hamk.fi/"
+		],
+		"languages": {
+			"fin": "Finnish",
+			"swe": "Swedish"
+		},
+		"region": "Europe"
+	},
+	....
+
+```
+
+## University Neighbors 
+
+>Method: GET <br>
+>Path: neighbourunis/{:country_name}/{:partial_or_complete_university_name}{?limit={:number}}
+
+Given a country and a partial name of the university, this endpoints find information for all countries that are a neighbor country.
+This does not include the universities from the country given. This endpoint will be the same structure as the `uniinfo` endpoint. 
+
+
+## Diagnostic Endpoint
+
+> Method: GET
+> Path: diag/
+
+To check if all third party endpoints are up, and some additional server information, use this endpoint.
+Additionally some information on the server. 
+
+Response: 
+
+```
+{
+   "universitiesapi": "<http status code for universities API>",
+   "countriesapi": "<http status code for restcountries API>",
+   "version": <Version of the service>,
+   "uptime": <time in seconds from the last service restart>
+}
+
+```
+
+
+# Third Party APIs. 
 
 The service is dependent on third party APIs.
 The main value is 
