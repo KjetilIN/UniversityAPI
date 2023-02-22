@@ -1,6 +1,6 @@
 # University API
 
-Created with GoLang
+The UniversityAPI service provides a RESTful API for retrieving information about universities in various countries. It allows users to query for universities by name or country, and returns data on the university's country, website, languages spoken and more. It uses third-party APIs to gather data from universities and countries. The service is built using the Go programming language and follows best practices for scalable and maintainable code, including a modular architecture and well-documented API endpoints. Whether you're a student researching potential universities, or a developer looking for a lightweight API to integrate into your application, the UniversityAPI service provides an easy-to-use and efficient solution.
 
 > Assignment 1 <br>
 > PROG2005 Cloud Technologies (2023 VÅR)<br>
