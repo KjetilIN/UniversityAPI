@@ -3,7 +3,7 @@ package handlers
 import (
 	"encoding/json"
 	"net/http"
-	"uniapi/serverstats"
+	"uniapi/internal/serverstats"
 )
 
 
@@ -17,8 +17,8 @@ func DiagHandler(w http.ResponseWriter, r *http.Request){
 	w.Header().Set("content-type", "application/json")
 
 	info := StatusInfo{
-		UniApi: getStatusCode(UNI_API_URL),
-		CountryApi: getStatusCode(COUNTRY_API_URL),
+		UniApi: getStatusCode(UNI_API_URL_PROD),
+		CountryApi: getStatusCode(COUNTRY_API_URL_PROD),
 		Version: VERSION,
 		Uptime: int(serverstats.Uptime().Seconds()),
 	}

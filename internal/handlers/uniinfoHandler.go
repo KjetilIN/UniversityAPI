@@ -29,8 +29,18 @@ func UniInfoHandler(w http.ResponseWriter, r *http.Request){
 		return
 	}
 
+	// Prepare empty list of structs to populate
+	var uniStructs []UniStuct
+
+	// Decode structs
+	err := json.NewDecoder(uniResponse.Body).Decode(&uniStructs)
+	if err != nil {
+		http.Error(w, "Error during decoding. Happened on adding country info", http.StatusBadRequest)
+		return
+	}
+
 	//Using the response from the Uni API and add the country info
-	finalAPiResponse := addCountryInfoByName(w,*uniResponse)
+	finalAPiResponse := addCountryInfoByName(w, uniStructs)
 
 	//Return results 
 	json.NewEncoder(w).Encode(finalAPiResponse)

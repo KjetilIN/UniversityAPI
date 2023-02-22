@@ -4,9 +4,9 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"uniapi/handlers"
-	"uniapi/mock"
-	"uniapi/serverstats"
+	"uniapi/internal/serverstats"
+	"uniapi/internal/handlers"
+	"uniapi/internal/mock"
 )
 
 

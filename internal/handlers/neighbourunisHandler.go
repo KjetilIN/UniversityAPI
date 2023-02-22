@@ -63,8 +63,17 @@ func NeighbourUniHandler(w http.ResponseWriter, r *http.Request) {
 			return 
 		}
 
+		var uniStructs []UniStuct
+
+		// Decode structs
+		err = json.NewDecoder(uniResponse.Body).Decode(&uniStructs)
+		if err != nil {
+			http.Error(w, "Error during decoding. Happened on adding country info", http.StatusBadRequest)
+			return
+		}
+
 		//3. Add the country information for each response 
-		uniList = addCountryInfoByName(w, *uniResponse)
+		uniList = addCountryInfoByName(w, uniStructs)
 
 		// 3. Add them to the struct
 		neighbourunis = append(neighbourunis, uniList...)
