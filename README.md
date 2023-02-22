@@ -118,3 +118,25 @@ JSON Response of Country (In this exsample Colombia):
 
 
 ```
+```
+UniversityAPI
+├─ go.mod
+├─ go.sum
+├─ handlers
+│  ├─ constants.go
+│  ├─ defaultHandler.go
+│  ├─ diagHandler.go
+│  ├─ helperFunctions.go
+│  ├─ neighbourunisHandler.go
+│  ├─ structs.go
+│  └─ uniinfoHandler.go
+├─ main.go
+├─ mock
+│  └─ mockHandlers.go
+├─ README.md
+├─ res
+│  ├─ norway.json
+│  └─ uni.json
+└─ serverstats
+   └─ timer.go
+```

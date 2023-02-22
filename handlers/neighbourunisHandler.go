@@ -34,19 +34,16 @@ func NeighbourUniHandler(w http.ResponseWriter, r *http.Request) {
 		limit = 0
 	}
 
-	//Get all border alpha codes 
-	//borderCodes, err := getBorderCountry(countryName);
-	if err != nil{
-		http.Error(w, "No border countries found", http.StatusNoContent)
-		return 
-	}
-
 	// The final response list 
 	var neighbourunis []UniversityInfo
 
 
 	//Get the list of ISO codes for neighbor contries;
-	codes, _ := getBorderCountry(countryName);
+	codes, borderError := getBorderCountry(countryName);
+	if borderError != nil{
+		http.Error(w, "No border countries found", http.StatusNoContent)
+		return 
+	}
 
 	for _, code := range codes{
 		// 1. Get the country name by alpha code 

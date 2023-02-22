@@ -22,7 +22,6 @@ func UniInfoHandler(w http.ResponseWriter, r *http.Request){
 		http.Error(w, "UniResponse error!", http.StatusBadRequest)
 		return 
 	}
-	defer uniResponse.Body.Close() //Close body always 
 
 	if uniResponse.StatusCode != http.StatusOK {
 		// The request was sucessfull but had no content
