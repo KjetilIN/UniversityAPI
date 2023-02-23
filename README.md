@@ -101,14 +101,14 @@ Response:
 ### UNI API
 
 
-The University API is a RESTful service that allows you to get information about universities in Norway. With this API, you can get the names of universities, the number of students enrolled, the number of faculties, and other details. The service uses third-party APIs to collect data about universities and then formats it into a JSON response.
+The University API is a RESTful service that allows you to get information about universities in the world. With this API, you can get the names of universities, website links, and other details. The service uses third-party APIs to collect data about universities and then formats it into a JSON response.
 
-To use the University API, you can make GET requests to the various endpoints provided by the service. The API provides endpoints to get the list of universities, detailed information about a specific university, and information about neighboring universities. You can use this information to create web applications or dashboards that display information about universities in Norway.
+To use the University API, you can make GET requests to the various endpoints provided by the service. The API provides endpoints to get the list of universities and detailed information about a specific university. You can use this information to create web applications or dashboards that display information about universities.
 
-The code for the University API is available on GitHub at https://github.com/username/UniversityAPI. You can clone the repository and run the service on your local machine or deploy it to a cloud platform like AWS or Heroku. The API is written in Golang and uses popular libraries like Gorilla Mux for routing and handling HTTP requests.
+The code for the University API is available on GitHub at https://github.com/Hipo/university-domains-list <br>
 
-
-- Link: `http://universities.hipolabs.com/search?name={NAME}&country={COUNTRY}`
+✅ Usage: 
+	- `http://universities.hipolabs.com/search?name={NAME}&country={COUNTRY}`
 
 
 Response as JSON (University in Turkey): 
@@ -138,7 +138,10 @@ Response as JSON (University in Turkey):
 
 ### Country API
 
-- Link use: 
+
+The Country API is a third-party API that provides information on countries all over the world. With this API, users can retrieve various data points about countries, such as their name, capital, and official languages. This API can be useful in a variety of applications, from educational tools to travel planning apps. The API is free to use and does not require authentication. To use the Country API, users can send HTTP requests to the API endpoints and receive JSON responses in return. The documentation for the Country API can be found on their website: https://restcountries.com/
+
+✅ How to use: 
     - `https://restcountries.com/v3.1/name/{COUNTRY_NAME}`
     - `https://restcountries.com/v3.1/aplha/{COUNTRY_ALPHA}`
 
