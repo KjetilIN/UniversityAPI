@@ -7,13 +7,13 @@ import (
 //start time of when service was started 
 var startTime time.Time
 
-//Get the time sice the service started
-func Uptime() time.Duration {
+//Get the time since the service started
+func GetUptime() time.Duration {
     return time.Since(startTime)
 }
 
 //Set the start time to current time. 
-func Init() {
+func InitServerTimer() {
     startTime = time.Now()
 }
 

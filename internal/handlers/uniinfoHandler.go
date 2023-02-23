@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 	"strings"
+	"log"
 	"uniapi/internal/constants"
 )
 
@@ -20,14 +21,9 @@ func UniInfoHandler(w http.ResponseWriter, r *http.Request){
 	//Doing a GET request to the UNI API
 	uniResponse, uniError := getFromUniAPI(search);
 	if uniError != nil {
-		http.Error(w, "UniResponse error!", http.StatusBadRequest)
+		log.Println("Error on get request to uni api: " + uniError.Error())
+		http.Error(w, "Invalid request for " + search, http.StatusBadRequest)
 		return 
-	}
-
-	if uniResponse.StatusCode != http.StatusOK {
-		// The request was successful but had no content
-		http.Error(w, "UniApI: No result with found for '"+ search+"'", http.StatusNoContent)
-		return
 	}
 
 	// Prepare empty list of structs to populate
@@ -36,13 +32,23 @@ func UniInfoHandler(w http.ResponseWriter, r *http.Request){
 	// Decode structs
 	err := json.NewDecoder(uniResponse.Body).Decode(&uniStructs)
 	if err != nil {
-		http.Error(w, "Error during decoding. Happened on adding country info", http.StatusBadRequest)
+		log.Println("Error during decoding Uni API response to Uni Struct: " + err.Error())
+		http.Error(w, "Error during decoding", http.StatusInternalServerError)
 		return
+	}else if (len(uniStructs) == 0){
+		log.Println("No results for following url: " + constants.UNI_API_URL_PROD + "/search?name=" + search)
+		http.Error(w, "No results for keyword: " + search, http.StatusNoContent)
+		return 
 	}
 
 	//Using the response from the Uni API and add the country info
 	finalAPiResponse := addCountryInfoByName(w, uniStructs)
 
 	//Return results 
-	json.NewEncoder(w).Encode(finalAPiResponse)
+	encoder:= json.NewEncoder(w)
+	err = encoder.Encode(finalAPiResponse)
+	if err != nil{
+		log.Println("Error during encoding the Uni Information Struct: " + err.Error())
+		http.Error(w, "Error during encoding", http.StatusInternalServerError)
+	}
 }

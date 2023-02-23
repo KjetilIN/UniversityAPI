@@ -29,7 +29,7 @@ func CountryMockHandler(w http.ResponseWriter, r *http.Request) {
 			break
 
 		default:
-			http.Error(w, "Method not suported", http.StatusNotImplemented)
+			http.Error(w, "Method not supported", http.StatusNotImplemented)
 	}
 
 }
@@ -46,7 +46,7 @@ func UniMockHandler(w http.ResponseWriter, r *http.Request) {
 			break
 
 		default:
-			http.Error(w, "Method not suported", http.StatusNotImplemented)
+			http.Error(w, "Method not supported", http.StatusNotImplemented)
 			break
 	}
 

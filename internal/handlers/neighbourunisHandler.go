@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"encoding/json"
+	"log"
 	"net/http"
 	"strconv"
 	"strings"
@@ -17,7 +18,8 @@ func NeighborUniHandler(w http.ResponseWriter, r *http.Request) {
 	pathParts := strings.Split(path, "/")
 
 	// Check if path contains required variables
-	if len(pathParts) < 6 {
+	if len(pathParts) != 6 {
+		log.Println("Error on amount of parameters!")
 		http.Error(w, "Invalid request path. Needs both country and middle: \n neighbourunis/{:country_name}/{:partial_or_complete_university_name}{?limit={:number}} ", http.StatusBadRequest)
 		return
 	}
@@ -30,7 +32,8 @@ func NeighborUniHandler(w http.ResponseWriter, r *http.Request) {
 	limitStr := r.URL.Query().Get("limit")
 	limit, err := strconv.Atoi(limitStr)
 	if(err != nil){
-		// We set the variable as 0 for no limit 
+		// This might trow error because not a number or it doesn't exists. 
+		// We set the variable as 0 for no limit, indicating no limit. 
 		limit = 0
 	}
 
@@ -41,6 +44,7 @@ func NeighborUniHandler(w http.ResponseWriter, r *http.Request) {
 	//Get the list of ISO codes for neighbor countries;
 	codes, borderError := getBorderCountry(countryName);
 	if borderError != nil{
+		log.Println("Error on get border country: " + err.Error())
 		http.Error(w, "No border countries found", http.StatusNoContent)
 		return 
 	}
@@ -49,7 +53,8 @@ func NeighborUniHandler(w http.ResponseWriter, r *http.Request) {
 		// 1. Get the country name by alpha code 
 		currentCountryName, err := getCountryFromAlphaCode(code);
 		if err != nil{
-			http.Error(w, "Not correct alpha code for; " + code, http.StatusBadRequest)
+			log.Println("Error on get Country from the alpha code method: " + err.Error())
+			http.Error(w, "Invalid alpha code given: " + code, http.StatusBadRequest)
 			return
 		}
 		// 2. Get all university that fit the country name and middle 
@@ -58,7 +63,8 @@ func NeighborUniHandler(w http.ResponseWriter, r *http.Request) {
 
 		uniResponse, err := getAllFromUniAPI(currentCountryName, universityName);
 		if err != nil{
-			http.Error(w, "Error on get All from Uni Api", http.StatusBadRequest)
+			log.Println("Error while trying to use middle and country name to do a GET request: ", err.Error())
+			http.Error(w, "Invalid Request. See docs for usage.", http.StatusBadRequest)
 			return 
 		}
 
@@ -67,7 +73,8 @@ func NeighborUniHandler(w http.ResponseWriter, r *http.Request) {
 		// Decode struct
 		err = json.NewDecoder(uniResponse.Body).Decode(&uniStruct)
 		if err != nil {
-			http.Error(w, "Error during decoding. Happened on adding country info", http.StatusBadRequest)
+			log.Println("Error during decoding Uni API response to Uni Struct: " + err.Error())
+			http.Error(w, "Error during decoding. Happened on adding country info", http.StatusInternalServerError)
 			return
 		}
 
@@ -84,6 +91,11 @@ func NeighborUniHandler(w http.ResponseWriter, r *http.Request) {
 		neighborUnis = neighborUnis[:limit]
 	}
 
-	//Encode the result 
-	json.NewEncoder(w).Encode(neighborUnis)
+	//Return results 
+	encoder:= json.NewEncoder(w)
+	err = encoder.Encode(neighborUnis)
+	if err != nil{
+		log.Println("Error during encoding the Uni Information Struct from the Neighbor api endpoint: " + err.Error())
+		http.Error(w, "Error during encoding", http.StatusInternalServerError)
+	}
 }

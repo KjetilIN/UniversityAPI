@@ -10,9 +10,8 @@ import (
 	"uniapi/internal/constants"
 )
 
-
+//Main function to run the service
 func main(){
-
 	//Get the port from local or env 
 	port := os.Getenv("PORT")
 	if port == ""{
@@ -22,7 +21,7 @@ func main(){
 
 	//Starting server timer
 	log.Println("Server timer starting.....")
-	serverstats.Init()
+	serverstats.InitServerTimer()
 
 
 	//Handlers

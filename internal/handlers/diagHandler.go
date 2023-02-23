@@ -2,12 +2,13 @@ package handlers
 
 import (
 	"encoding/json"
+	"log"
 	"net/http"
-	"uniapi/internal/serverstats"
 	"uniapi/internal/constants"
+	"uniapi/internal/serverstats"
 )
 
-
+// Uses the http package to do a GET request on the given link. Returns the status
 func getStatusCode(link string) string{
 	resp, _ := http.Get(link)
 	return resp.Status
@@ -16,12 +17,13 @@ func getStatusCode(link string) string{
 func DiagHandler(w http.ResponseWriter, r *http.Request){
 	//Head Information
 	w.Header().Set("content-type", "application/json")
-
+	
+	//Information for the client 
 	info := constants.StatusInfo{
 		UniApi: getStatusCode(constants.UNI_API_URL_PROD),
 		CountryApi: getStatusCode(constants.COUNTRY_API_URL_PROD),
 		Version: constants.VERSION,
-		Uptime: int(serverstats.Uptime().Seconds()),
+		Uptime: int(serverstats.GetUptime().Seconds()),
 	}
 	
 	//Encoding json
@@ -30,8 +32,8 @@ func DiagHandler(w http.ResponseWriter, r *http.Request){
 
 	//Handle error
 	if err != nil{
-		http.Error(w, "Error on output!", http.StatusInternalServerError);
+		log.Println("Error on decoding diag struct to response writer: " + err.Error())
+		http.Error(w, "Error on encoding", http.StatusInternalServerError);
+		return
 	}
-
-
 }

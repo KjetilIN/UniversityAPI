@@ -160,24 +160,27 @@ func addCountryInfoByName(w http.ResponseWriter, uniStructs []constants.UniStruc
 	//The final response to the
 	var uniInfoResponse []constants.UniversityInfo
 
-	//Loop over each of the university and add the languages
+	//Saving current country information to avoid multiple requests 
 	var currentCountryInfo []constants.CountryInfo
 	var currentCountry string
 
+	//Loop over each of the university and add the languages
 	for _, uni := range uniStructs {
 		// Only do a new GET request if the University is in a different country. Only one get request
 		if uni.Country != currentCountry {
 			// DO API REQUEST and set the new country info struct
 			countryResponse, countryErr := getFromCountryFromName(uni.Country)
 			if countryErr != nil {
-				http.Error(w, "Country Response error!", http.StatusBadRequest)
+				log.Println("Error getting country by name method: ", countryErr.Error())
+				http.Error(w, "Invalid request for " + uni.Country, http.StatusBadRequest)
 				return nil
 			}
 
 			// Decode struct
 			err := json.NewDecoder(countryResponse.Body).Decode(&currentCountryInfo)
 			if err != nil {
-				http.Error(w, "Error during decoding of country: "+err.Error(), http.StatusBadRequest)
+				log.Println("Error during decoding of country: "+err.Error())
+				http.Error(w, "Error during decoding", http.StatusInternalServerError)
 				return nil
 			}
 
