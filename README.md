@@ -2,6 +2,15 @@
 
 The UniversityAPI service provides a RESTful API for retrieving information about universities in various countries. It allows users to query for universities by name or country, and returns data on the university's country, website, languages spoken and more. It uses third-party APIs to gather data from universities and countries. The service is built using the Go programming language and follows best practices for scalable and maintainable code, including a modular architecture and well-documented API endpoints. Whether you're a student researching potential universities, or a developer looking for a lightweight API to integrate into your application, the UniversityAPI service provides an easy-to-use and efficient solution.
 
+<br>
+
+To run the project simply run the `main.go` file in the following path:
+
+```terminal 
+	go run ./cmd/university-api
+```
+
+
 > Assignment 1 <br>
 > Version: v1 <br>
 > PROG2005 Cloud Technologies (2023 VÅR)<br>
@@ -201,4 +210,15 @@ JSON Response of Country (In this example Colombia):
 		"otherNames": ["Unión de Naciones Suramericanas", "União de Nações Sul-Americanas", "Unie van Zuid-Amerikaanse Naties", "South American Union"]
 	}]
 }]
+```
+
+## Mock Endpoints 
+
+The UniversityAPI project also includes two mock endpoints, one for universities and one for countries. These mock endpoints can be used for testing purposes and to avoid making real API calls during development. The mock endpoints return sample data in the same format as the actual API responses, allowing developers to test the code with realistic data. The sample data for the mock endpoints is stored in JSON files located in the `./internal/res` folder of the project. These mock endpoints can be accessed at: <br>
+- `/mock/uni` <br>
+- `/mock/country` <br>
+
+
+
+
 
