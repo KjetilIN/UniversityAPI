@@ -4,10 +4,10 @@ The UniversityAPI service provides a RESTful API for retrieving information abou
 
 <br>
 
-To run the project simply run the `main.go` file in the following path:
+To run the project simply run the `main.go` file, with the following command:
 
 ```terminal 
-	go run ./cmd/university-api
+	go run ./cmd/univerity-api/main.go 
 ```
 
 
