@@ -107,7 +107,7 @@ To use the University API, you can make GET requests to the various endpoints pr
 
 The code for the University API is available on GitHub at https://github.com/Hipo/university-domains-list <br>
 
-✅ Usage: 
+✅ Usage: <br>
 	- `http://universities.hipolabs.com/search?name={NAME}&country={COUNTRY}`
 
 
@@ -141,9 +141,9 @@ Response as JSON (University in Turkey):
 
 The Country API is a third-party API that provides information on countries all over the world. With this API, users can retrieve various data points about countries, such as their name, capital, and official languages. This API can be useful in a variety of applications, from educational tools to travel planning apps. The API is free to use and does not require authentication. To use the Country API, users can send HTTP requests to the API endpoints and receive JSON responses in return. The documentation for the Country API can be found on their website: https://restcountries.com/
 
-✅ How to use: 
-    - `https://restcountries.com/v3.1/name/{COUNTRY_NAME}`
-    - `https://restcountries.com/v3.1/aplha/{COUNTRY_ALPHA}`
+✅ How to use: <br>
+    - `https://restcountries.com/v3.1/name/{COUNTRY_NAME}` <br>
+    - `https://restcountries.com/v3.1/aplha/{COUNTRY_ALPHA}` <br>
 
 
 JSON Response of Country (In this example Colombia): 
