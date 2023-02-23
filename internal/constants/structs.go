@@ -1,4 +1,4 @@
-package handlers
+package constants
 
 //Default handlets return struct
 type ProjectInfo struct{

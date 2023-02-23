@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"strconv"
 	"strings"
+	"uniapi/internal/constants"
 )
 
 func NeighborUniHandler(w http.ResponseWriter, r *http.Request) {
@@ -12,7 +13,7 @@ func NeighborUniHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("content-type", "application/json")
 
 	// Parse the URL path
-	path := strings.TrimSuffix(r.URL.Path, NEIGHBOR_UNIS_PATH)
+	path := strings.TrimSuffix(r.URL.Path, constants.NEIGHBOR_UNIS_PATH)
 	pathParts := strings.Split(path, "/")
 
 	// Check if path contains required variables
@@ -34,7 +35,7 @@ func NeighborUniHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// The final response list 
-	var neighborUnis []UniversityInfo
+	var neighborUnis []constants.UniversityInfo
 
 
 	//Get the list of ISO codes for neighbor countries;
@@ -53,7 +54,7 @@ func NeighborUniHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		// 2. Get all university that fit the country name and middle 
 
-		var uniList []UniversityInfo
+		var uniList []constants.UniversityInfo
 
 		uniResponse, err := getAllFromUniAPI(currentCountryName, universityName);
 		if err != nil{
@@ -61,7 +62,7 @@ func NeighborUniHandler(w http.ResponseWriter, r *http.Request) {
 			return 
 		}
 
-		var uniStruct []UniStruct
+		var uniStruct []constants.UniStruct
 
 		// Decode struct
 		err = json.NewDecoder(uniResponse.Body).Decode(&uniStruct)

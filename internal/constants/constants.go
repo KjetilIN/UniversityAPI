@@ -1,4 +1,4 @@
-package handlers
+package constants
 
 //Version
 const VERSION = "v1"
@@ -10,7 +10,7 @@ const NEIGHBOR_UNIS_PATH = "/unisearcher/" + VERSION + "/neighbourunis/"
 const DIAG_PATH = "/unisearcher/" + VERSION + "/diag/"
 
 const MOCK_UNI_PATH = "/mock/uni"
-const MOCK_COUNTRY_PATH ="/mock/contry"
+const MOCK_COUNTRY_PATH ="/mock/country"
 
 //URL const
 const UNI_API_URL = "http://localhost:8080/mock/uni"

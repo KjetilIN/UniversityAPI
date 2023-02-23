@@ -7,6 +7,7 @@ import (
 	"uniapi/internal/serverstats"
 	"uniapi/internal/handlers"
 	"uniapi/internal/mock"
+	"uniapi/internal/constants"
 )
 
 
@@ -25,14 +26,14 @@ func main(){
 
 
 	//Handlers
-	http.HandleFunc(handlers.DEFAULT_PATH, handlers.DefaultHandler)
-	http.HandleFunc(handlers.DIAG_PATH, handlers.DiagHandler)
-	http.HandleFunc(handlers.UNI_INFO_PATH, handlers.UniInfoHandler)
-	http.HandleFunc(handlers.NEIGHBOR_UNIS_PATH, handlers.NeighborUniHandler)
+	http.HandleFunc(constants.DEFAULT_PATH, handlers.DefaultHandler)
+	http.HandleFunc(constants.DIAG_PATH, handlers.DiagHandler)
+	http.HandleFunc(constants.UNI_INFO_PATH, handlers.UniInfoHandler)
+	http.HandleFunc(constants.NEIGHBOR_UNIS_PATH, handlers.NeighborUniHandler)
 
 	//Mock handlers
-	http.HandleFunc(handlers.MOCK_COUNTRY_PATH, mock.CountryMockHandler)
-	http.HandleFunc(handlers.MOCK_UNI_PATH, mock.UniMockHandler)
+	http.HandleFunc(constants.MOCK_COUNTRY_PATH, mock.CountryMockHandler)
+	http.HandleFunc(constants.MOCK_UNI_PATH, mock.UniMockHandler)
 
 	//Start Server
 	log.Println("Starting server on port " + port + "...")

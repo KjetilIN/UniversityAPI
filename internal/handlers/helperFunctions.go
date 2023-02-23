@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"sort"
 	"time"
+	"uniapi/internal/constants"
 )
 
 // Create a reusable http.Client that is used by the uni info handler
@@ -16,7 +17,7 @@ var httpClient = &http.Client{
 // Function that setup the GET request and return error
 func getFromUniAPI(searchWord string) (*http.Response, error) {
 	// Building the url 
-	URL := UNI_API_URL_PROD + "/search?name=" + searchWord
+	URL := constants.UNI_API_URL_PROD + "/search?name=" + searchWord
 	
 	// Create a new GET request
 	req, err := http.NewRequest(http.MethodGet, URL, nil)
@@ -40,7 +41,7 @@ func getFromUniAPI(searchWord string) (*http.Response, error) {
 // Function that setup the GET request and return response and error
 func getFromCountryFromName(country string) (*http.Response, error) {
 	// URL
-	URL := COUNTRY_API_NAME_URL_PROD + "/" + country
+	URL := constants.COUNTRY_API_NAME_URL_PROD + "/" + country
 
 	// Create a new GET request
 	req, err := http.NewRequest(http.MethodGet, URL, nil)
@@ -64,7 +65,7 @@ func getFromCountryFromName(country string) (*http.Response, error) {
 // Function gets the country name from the api
 func getCountryFromAlphaCode(code string) (string, error) {
 	// URL
-	URL := COUNTRY_API_ALPHA_URL_PROD + "/" + code
+	URL := constants.COUNTRY_API_ALPHA_URL_PROD + "/" + code
 
 	// Create a new GET request
 	req, err := http.NewRequest(http.MethodGet, URL, nil)
@@ -82,7 +83,7 @@ func getCountryFromAlphaCode(code string) (string, error) {
 	}
 
 	//Prepare to populate the border countries struct
-	var countryNames []CountryName
+	var countryNames []constants.CountryName
 
 	decodeError := json.NewDecoder(resp.Body).Decode(&countryNames)
 	if decodeError != nil {
@@ -96,7 +97,7 @@ func getCountryFromAlphaCode(code string) (string, error) {
 // Get the list of alpha codes from the body
 func getBorderCountry(country string) ([]string, error) {
 	// The url for the request
-	URL := COUNTRY_API_NAME_URL_PROD+"/"+country
+	URL := constants.COUNTRY_API_NAME_URL_PROD+"/"+country
 
 	// Create a new GET request
 	req, err := http.NewRequest(http.MethodGet, URL, nil)
@@ -114,7 +115,7 @@ func getBorderCountry(country string) ([]string, error) {
 	}
 
 	//Prepare to populate the border countries struct and then decoding it 
-	var borderCountries []BorderCountries
+	var borderCountries []constants.BorderCountries
 
 	decodeError := json.NewDecoder(resp.Body).Decode(&borderCountries)
 	if decodeError != nil {
@@ -127,7 +128,7 @@ func getBorderCountry(country string) ([]string, error) {
 // Function that setup the GET request and return response and error
 func getAllFromUniAPI(country string, middle string) (*http.Response, error) {
 	// URL
-	URL := UNI_API_URL_PROD + "/search?name=" + middle + "&country=" + country
+	URL := constants.UNI_API_URL_PROD + "/search?name=" + middle + "&country=" + country
 
 	// Create a new GET request
 	req, err := http.NewRequest(http.MethodGet, URL, nil)
@@ -149,7 +150,7 @@ func getAllFromUniAPI(country string, middle string) (*http.Response, error) {
 }
 
 // Takes the response from the UniApi and responsewriter. Returns list of UniversityInfo
-func addCountryInfoByName(w http.ResponseWriter, uniStructs []UniStruct) []UniversityInfo {
+func addCountryInfoByName(w http.ResponseWriter, uniStructs []constants.UniStruct) []constants.UniversityInfo {
 
 	// Sort the list of uni struct by country
 	sort.Slice(uniStructs, func(i, j int) bool {
@@ -157,10 +158,10 @@ func addCountryInfoByName(w http.ResponseWriter, uniStructs []UniStruct) []Unive
 	})
 
 	//The final response to the
-	var uniInfoResponse []UniversityInfo
+	var uniInfoResponse []constants.UniversityInfo
 
 	//Loop over each of the university and add the languages
-	var currentCountryInfo []CountryInfo
+	var currentCountryInfo []constants.CountryInfo
 	var currentCountry string
 
 	for _, uni := range uniStructs {
@@ -185,7 +186,7 @@ func addCountryInfoByName(w http.ResponseWriter, uniStructs []UniStruct) []Unive
 		}
 
 		//Build the New Struct
-		var newUniInfo UniversityInfo = UniversityInfo{UniStruct: uni, CountryInfo: currentCountryInfo[0]}
+		var newUniInfo constants.UniversityInfo = constants.UniversityInfo{UniStruct: uni, CountryInfo: currentCountryInfo[0]}
 
 		//Add them into the response list
 		uniInfoResponse = append(uniInfoResponse, newUniInfo)

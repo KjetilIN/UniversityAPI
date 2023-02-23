@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 	"strings"
+	"uniapi/internal/constants"
 )
 
 
@@ -14,7 +15,7 @@ func UniInfoHandler(w http.ResponseWriter, r *http.Request){
 
 
 	//Get the search word from the path of the url 
-	search := strings.TrimPrefix(r.URL.Path, UNI_INFO_PATH)
+	search := strings.TrimPrefix(r.URL.Path, constants.UNI_INFO_PATH)
 
 	//Doing a GET request to the UNI API
 	uniResponse, uniError := getFromUniAPI(search);
@@ -24,13 +25,13 @@ func UniInfoHandler(w http.ResponseWriter, r *http.Request){
 	}
 
 	if uniResponse.StatusCode != http.StatusOK {
-		// The request was sucessfull but had no content
+		// The request was successful but had no content
 		http.Error(w, "UniApI: No result with found for '"+ search+"'", http.StatusNoContent)
 		return
 	}
 
 	// Prepare empty list of structs to populate
-	var uniStructs []UniStruct
+	var uniStructs []constants.UniStruct
 
 	// Decode structs
 	err := json.NewDecoder(uniResponse.Body).Decode(&uniStructs)
