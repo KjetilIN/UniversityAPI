@@ -42,7 +42,7 @@ func NeighborUniHandler(w http.ResponseWriter, r *http.Request) {
 
 
 	//Get the list of ISO codes for neighbor countries;
-	codes, borderError := getBorderCountry(countryName);
+	codes, borderError := GetBorderCountry(countryName);
 	if borderError != nil{
 		log.Println("Error on get border country: " + err.Error())
 		http.Error(w, "No border countries found", http.StatusNoContent)
@@ -51,7 +51,7 @@ func NeighborUniHandler(w http.ResponseWriter, r *http.Request) {
 
 	for _, code := range codes{
 		// 1. Get the country name by alpha code 
-		currentCountryName, err := getCountryFromAlphaCode(code);
+		currentCountryName, err := GetCountryFromAlphaCode(code);
 		if err != nil{
 			log.Println("Error on get Country from the alpha code method: " + err.Error())
 			http.Error(w, "Invalid alpha code given: " + code, http.StatusBadRequest)
@@ -61,7 +61,7 @@ func NeighborUniHandler(w http.ResponseWriter, r *http.Request) {
 
 		var uniList []constants.UniversityInfo
 
-		uniResponse, err := getAllFromUniAPI(currentCountryName, universityName);
+		uniResponse, err := GetAllFromUniAPI(currentCountryName, universityName);
 		if err != nil{
 			log.Println("Error while trying to use middle and country name to do a GET request: ", err.Error())
 			http.Error(w, "Invalid Request. See docs for usage.", http.StatusBadRequest)
@@ -79,7 +79,7 @@ func NeighborUniHandler(w http.ResponseWriter, r *http.Request) {
 		}
 
 		//3. Add the country information for each response 
-		uniList = addCountryInfoByName(w, uniStruct)
+		uniList = AddCountryInfoByName(w, uniStruct)
 
 		// 3. Add them to the struct
 		neighborUnis = append(neighborUnis, uniList...)

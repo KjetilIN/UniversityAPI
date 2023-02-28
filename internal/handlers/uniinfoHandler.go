@@ -19,7 +19,7 @@ func UniInfoHandler(w http.ResponseWriter, r *http.Request){
 	search := strings.TrimPrefix(r.URL.Path, constants.UNI_INFO_PATH)
 
 	//Doing a GET request to the UNI API
-	uniResponse, uniError := getFromUniAPI(search);
+	uniResponse, uniError := GetFromUniAPI(search);
 	if uniError != nil {
 		log.Println("Error on get request to uni api: " + uniError.Error())
 		http.Error(w, "Invalid request for " + search, http.StatusBadRequest)
@@ -42,7 +42,7 @@ func UniInfoHandler(w http.ResponseWriter, r *http.Request){
 	}
 
 	//Using the response from the Uni API and add the country info
-	finalAPiResponse := addCountryInfoByName(w, uniStructs)
+	finalAPiResponse := AddCountryInfoByName(w, uniStructs)
 
 	//Return results 
 	encoder:= json.NewEncoder(w)

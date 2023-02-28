@@ -219,6 +219,22 @@ The UniversityAPI project also includes two mock endpoints, one for universities
 - `/mock/country` <br>
 
 
+## Testing 
+
+The service also provide a set of tests for the code. These tests are designed to check the behavior of the code and to ensure that it meets the expected requirements. We encourage you to run these tests and contribute to the project by reporting any issues or bugs that you may find. You can run the tests by using the appropriate commands provided<br>
+
+To run tests: <br>
+
+```terminal
+	go test ./test/
+```
+
+And to see the coverage rate, use: <br>
+
+```terminal
+	go test -coverpkg=./... ./test/
+```
+
 
 
 
