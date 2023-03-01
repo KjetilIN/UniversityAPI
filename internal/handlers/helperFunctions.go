@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"encoding/json"
+	"errors"
 	"log"
 	"net/http"
 	"sort"
@@ -14,8 +15,8 @@ var httpClient = &http.Client{
 	Timeout: time.Second * 10, // Add a timeout to avoid hanging connections
 }
 
-// Function that setup the GET request and return error
-func getFromUniAPI(searchWord string) (*http.Response, error) {
+// Function that setup the GET request and returns the response and  error
+func getUniversitiesWithName(searchWord string) (*http.Response, error) {
 	// Building the url 
 	URL := constants.UNI_API_URL_PROD + "/search?name=" + searchWord
 	
@@ -38,8 +39,8 @@ func getFromUniAPI(searchWord string) (*http.Response, error) {
 	return resp, err
 }
 
-// Function that setup the GET request and return response and error
-func getFromCountryFromName(country string) (*http.Response, error) {
+// Function that does a GET request with the given country name and return response and error
+func getCountriesFromCountryName(country string) (*http.Response, error) {
 	// URL
 	URL := constants.COUNTRY_API_NAME_URL_PROD + "/" + country
 
@@ -50,7 +51,7 @@ func getFromCountryFromName(country string) (*http.Response, error) {
 	}
 
 	//Logging the request
-	log.Println("GET country name: ", URL)
+	log.Println("GET using country name: ", URL)
 
 	// Send the request using the shared http.Client
 	resp, err := httpClient.Do(req)
@@ -62,8 +63,9 @@ func getFromCountryFromName(country string) (*http.Response, error) {
 	return resp, err
 }
 
-// Function gets the country name from the api
-func getCountryFromAlphaCode(code string) (string, error) {
+// Function gets the country name from the alpha code.
+// Does a get request to the alpha code 
+func getCountryNameFromAlphaCode(code string) (string, error) {
 	// URL
 	URL := constants.COUNTRY_API_ALPHA_URL_PROD + "/" + code
 
@@ -89,13 +91,18 @@ func getCountryFromAlphaCode(code string) (string, error) {
 	if decodeError != nil {
 		return "", err
 	}
+	
+	//if no results after the decoder
+	if(len(countryNames) < 1){
+		return "", errors.New("204, no names to get")
+	}
 
-	// Return the response and any errors
-	return countryNames[0].Name.Common, err
+	// Return the name of the first response 
+	return countryNames[0].Name.Common, nil
 }
 
 // Get the list of alpha codes from the body
-func getBorderCountry(country string) ([]string, error) {
+func getBorderCountries(country string) ([]string, error) {
 	// The url for the request
 	URL := constants.COUNTRY_API_NAME_URL_PROD+"/"+country
 
@@ -122,11 +129,16 @@ func getBorderCountry(country string) ([]string, error) {
 		return nil, err
 	}
 
+	//if no results after the decoder
+	if(len(borderCountries) < 1){
+		return nil, errors.New("204, no border countries to get")
+	}
+
 	return borderCountries[0].Borders, nil
 }
 
 // Function that setup the GET request and return response and error
-func getAllFromUniAPI(country string, middle string) (*http.Response, error) {
+func getUniversitiesWithNameAndMiddle(country string, middle string) (*http.Response, error) {
 	// URL
 	URL := constants.UNI_API_URL_PROD + "/search?name=" + middle + "&country=" + country
 
@@ -150,7 +162,7 @@ func getAllFromUniAPI(country string, middle string) (*http.Response, error) {
 }
 
 // Takes the response from the UniApi and responsewriter. Returns list of UniversityInfo
-func addCountryInfoByName(w http.ResponseWriter, uniStructs []constants.UniStruct) []constants.UniversityInfo {
+func addCountryInfoToUniversities(w http.ResponseWriter, uniStructs []constants.UniStruct) []constants.UniversityInfo {
 
 	// Sort the list of uni struct by country
 	sort.Slice(uniStructs, func(i, j int) bool {
@@ -169,7 +181,7 @@ func addCountryInfoByName(w http.ResponseWriter, uniStructs []constants.UniStruc
 		// Only do a new GET request if the University is in a different country. Only one get request
 		if uni.Country != currentCountry {
 			// DO API REQUEST and set the new country info struct
-			countryResponse, countryErr := getFromCountryFromName(uni.Country)
+			countryResponse, countryErr := getCountriesFromCountryName(uni.Country)
 			if countryErr != nil {
 				log.Println("Error getting country by name method: ", countryErr.Error())
 				http.Error(w, "Invalid request for " + uni.Country, http.StatusBadRequest)
@@ -215,9 +227,9 @@ func removeEmptyStrings(strs []string) []string {
 //Check if the url is valid length.
 //Uses responsewriter to return status if not, and returns false. 
 //Takes the list of strings and the required length
-func isValidLength(strList []string, required int, w http.ResponseWriter) bool{
-
-	strList = removeEmptyStrings(strList); //Remove empty strings
+func isOfValidLength(strList []string, required int, w http.ResponseWriter) bool{
+	//Remove empty strings
+	strList = removeEmptyStrings(strList); 
 	
 	// Check if path contains required variables
 	if len(strList) != required {

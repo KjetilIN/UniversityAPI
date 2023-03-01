@@ -18,14 +18,14 @@ func UniInfoHandler(w http.ResponseWriter, r *http.Request){
 	search := strings.TrimPrefix(r.URL.Path, constants.UNI_INFO_PATH)
 
 	//Check if valid length, error is handled by the method
-	isValid :=isValidLength(strings.Split(search, "/"),3,w);
+	isValid :=isOfValidLength(strings.Split(search, "/"),3,w);
 	if(!isValid){
 		//Only return because the method handles the errors. 
 		return
 	}
 
 	//Doing a GET request to the UNI API
-	uniResponse, uniError := getFromUniAPI(search);
+	uniResponse, uniError := getUniversitiesWithName(search);
 	if uniError != nil {
 		log.Println("Error on get request to uni api: " + uniError.Error())
 		http.Error(w, "Invalid request for " + search, http.StatusBadRequest)
@@ -48,7 +48,7 @@ func UniInfoHandler(w http.ResponseWriter, r *http.Request){
 	}
 
 	//Using the response from the Uni API and add the country info
-	finalAPiResponse := addCountryInfoByName(w, uniStructs)
+	finalAPiResponse := addCountryInfoToUniversities(w, uniStructs)
 
 	//Return results 
 	encoder:= json.NewEncoder(w)
