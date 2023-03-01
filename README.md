@@ -212,6 +212,13 @@ JSON Response of Country (In this example Colombia):
 }]
 ```
 
+## Deployment
+<br>
+The service has been successfully deployed using Render. Render is a cloud computing platform that simplifies the deployment and scaling of web applications and services. Render's intuitive interface for configuring and managing infrastructure made it easy for to deploy the REST service and make it available to our users. Here is the render link: <br>
+<br>
+https://prog2005-universityapi.onrender.com
+
+
 ## Mock Endpoints 
 
 The UniversityAPI project also includes two mock endpoints, one for universities and one for countries. These mock endpoints can be used for testing purposes and to avoid making real API calls during development. The mock endpoints return sample data in the same format as the actual API responses, allowing developers to test the code with realistic data. The sample data for the mock endpoints is stored in JSON files located in the `./internal/res` folder of the project. These mock endpoints can be accessed at: <br>
