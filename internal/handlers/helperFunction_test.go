@@ -43,7 +43,7 @@ func TestGetFromUniApi_Positive(t *testing.T) {
 
 func TestGetFromUniApi_Negative(t *testing.T) {
 
-	//Search word is random and no result is aspected 
+	//Search word is random and no result is aspects 
 	search := "swdfghjkjhgfdsasdfghjkjhgfdsasdfghjkjhgfdsasdfghjk";
 
 	resp, _ := getUniversitiesWithName(search);

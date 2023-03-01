@@ -240,3 +240,15 @@ func isOfValidLength(strList []string, required int, w http.ResponseWriter) bool
 
 	return true
 }
+
+
+//Check if it uses the allowed request type
+func isCorrectRequestMethod(r *http.Request) bool{
+	//Check if it is a GET request
+	if(r.Method != http.MethodGet){
+		log.Println("Wrong request type, tried ", r.Method)
+		return false
+	}
+
+	return true
+}

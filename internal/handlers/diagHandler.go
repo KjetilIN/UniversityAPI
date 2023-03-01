@@ -34,6 +34,13 @@ func DiagHandler(w http.ResponseWriter, r *http.Request){
 	//Head Information
 	w.Header().Set("content-type", "application/json")
 
+	//Check if it is a GET request
+	requestStatus := isCorrectRequestMethod(r);
+	if(!requestStatus){
+		http.Error(w, "Bad request. Only get is available for the diag endpoint.", http.StatusBadRequest)
+		return
+	}
+
 	//check the url 
 	urlStatus := isDiagUrlValid(r.URL.Path, w);
 	if(!urlStatus){

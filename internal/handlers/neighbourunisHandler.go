@@ -13,6 +13,13 @@ func NeighborUniHandler(w http.ResponseWriter, r *http.Request) {
 	//Setting header content
 	w.Header().Set("content-type", "application/json")
 
+	//Check if it is a GET request
+	requestStatus := isCorrectRequestMethod(r);
+	if(!requestStatus){
+		http.Error(w, "Bad request. Only get is available for the neighbor universities endpoint.", http.StatusBadRequest)
+		return
+	}
+
 	// Parse the URL path
 	path := strings.TrimSuffix(r.URL.Path, constants.NEIGHBOR_UNIS_PATH)
 	
@@ -83,7 +90,7 @@ func NeighborUniHandler(w http.ResponseWriter, r *http.Request) {
 		//3. Add the country information for each response 
 		uniList = addCountryInfoToUniversities(w, uniStruct)
 
-		// 3. Add them to the struct
+		// 4. Add them to the struct
 		neighborUnis = append(neighborUnis, uniList...)
 
 	}

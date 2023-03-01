@@ -8,7 +8,7 @@ import (
 )
 
 // Function that is used for parsing a file 
-func ParseFile(filename string) []byte {
+func parseFile(filename string) []byte {
 	file, err := os.ReadFile(filename)
 	if err != nil {
 		// Handles errors like this, because the mock response is not going to change,
@@ -24,7 +24,7 @@ func CountryMockHandler(w http.ResponseWriter, r *http.Request) {
 		case http.MethodGet:	
 			log.Println("GET request to the Country mock endpoint")
 			w.Header().Set("content-type", "application/json")
-			output := ParseFile("./internal/res/norway.json")
+			output := parseFile("./internal/res/norway.json")
 			fmt.Fprint(w, string(output))
 			break
 
@@ -40,7 +40,7 @@ func UniMockHandler(w http.ResponseWriter, r *http.Request) {
 		case http.MethodGet:
 			log.Println("GET request to the Uni mock endpoint")
 			w.Header().Set("content-type", "application/json")
-			output := ParseFile("./internal/res/uni.json")
+			output := parseFile("./internal/res/uni.json")
 			fmt.Fprint(w, string(output))
 			break
 

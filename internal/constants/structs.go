@@ -25,6 +25,7 @@ type CountryName struct{
 }
 
 
+
 // Struct used by encoder to get the information from the university api
 type UniStruct struct{
 	Name string `json:"name"`

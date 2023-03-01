@@ -13,6 +13,13 @@ func UniInfoHandler(w http.ResponseWriter, r *http.Request){
 	//Setting header content
 	w.Header().Set("content-type", "application/json")
 
+	//Check if it is a GET request
+	requestStatus := isCorrectRequestMethod(r);
+	if(!requestStatus){
+		http.Error(w, "Bad request. Only get is available for the uniinfo endpoint.", http.StatusBadRequest)
+		return
+	}
+
 
 	//Get the search word from the path of the url 
 	search := strings.TrimPrefix(r.URL.Path, constants.UNI_INFO_PATH)
