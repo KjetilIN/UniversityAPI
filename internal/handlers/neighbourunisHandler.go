@@ -15,18 +15,20 @@ func NeighborUniHandler(w http.ResponseWriter, r *http.Request) {
 
 	// Parse the URL path
 	path := strings.TrimSuffix(r.URL.Path, constants.NEIGHBOR_UNIS_PATH)
+	
 	pathParts := strings.Split(path, "/")
-
+	pathParts = removeEmptyStrings(pathParts); //Remove empty strings
+	
 	// Check if path contains required variables
-	if len(pathParts) != 6 {
-		log.Println("Error on amount of parameters!")
-		http.Error(w, "Invalid request path. Needs both country and middle: \n neighbourunis/{:country_name}/{:partial_or_complete_university_name}{?limit={:number}} ", http.StatusBadRequest)
+	isValid := isValidLength(pathParts, 5,w);
+	if(!isValid){
 		return
 	}
-
+	
 	// Extract variables from the path
-	countryName := pathParts[4]
-	universityName := pathParts[5]
+	//Note! This should never through error, therefore no check
+	countryName := pathParts[3]
+	universityName := pathParts[4]
 
 	// Check if limit is provided as a query parameter
 	limitStr := r.URL.Query().Get("limit")

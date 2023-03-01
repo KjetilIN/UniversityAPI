@@ -1,11 +1,5 @@
 package constants
 
-//Default handlets return struct
-type ProjectInfo struct{
-	Author string `json:"author"`
-	Version string `json:"version"`
-}
-
 // Diag handler return struct 
 type StatusInfo struct{
 	UniApi string `json:"universitiesapi"`
@@ -14,7 +8,7 @@ type StatusInfo struct{
 	Uptime int `json:"uptime"`
 }	
 
-//Stuct with the country info
+//Struct with the country info
 type CountryInfo struct{
 	Languages map[string]string `json:"languages"`
 	Region string `json:"region"`

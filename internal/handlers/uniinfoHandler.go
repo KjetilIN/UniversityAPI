@@ -9,7 +9,6 @@ import (
 )
 
 
-
 func UniInfoHandler(w http.ResponseWriter, r *http.Request){
 	//Setting header content
 	w.Header().Set("content-type", "application/json")
@@ -17,6 +16,13 @@ func UniInfoHandler(w http.ResponseWriter, r *http.Request){
 
 	//Get the search word from the path of the url 
 	search := strings.TrimPrefix(r.URL.Path, constants.UNI_INFO_PATH)
+
+	//Check if valid length, error is handled by the method
+	isValid :=isValidLength(strings.Split(search, "/"),3,w);
+	if(!isValid){
+		//Only return because the method handles the errors. 
+		return
+	}
 
 	//Doing a GET request to the UNI API
 	uniResponse, uniError := getFromUniAPI(search);

@@ -25,7 +25,6 @@ func main(){
 
 
 	//Handlers
-	http.HandleFunc(constants.DEFAULT_PATH, handlers.DefaultHandler)
 	http.HandleFunc(constants.DIAG_PATH, handlers.DiagHandler)
 	http.HandleFunc(constants.UNI_INFO_PATH, handlers.UniInfoHandler)
 	http.HandleFunc(constants.NEIGHBOR_UNIS_PATH, handlers.NeighborUniHandler)
@@ -33,6 +32,13 @@ func main(){
 	//Mock handlers
 	http.HandleFunc(constants.MOCK_COUNTRY_PATH, mock.CountryMockHandler)
 	http.HandleFunc(constants.MOCK_UNI_PATH, mock.UniMockHandler)
+
+
+	//Catch-all handler for undefined endpoints! (replaced the default handler)
+    http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+        http.Error(w, "Endpoint not found!\n See the docs for the defined endpoints!", http.StatusBadRequest)
+    })
+
 
 	//Start Server
 	log.Println("Starting server on port " + port + "...")

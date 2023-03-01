@@ -198,3 +198,33 @@ func addCountryInfoByName(w http.ResponseWriter, uniStructs []constants.UniStruc
 	return uniInfoResponse
 
 }
+
+//Used to remove empty strings in a list
+//Comes from an error on splitting an url. /uni/v1/diag will turn into length of 5
+func removeEmptyStrings(strs []string) []string {
+    result := make([]string, 0, len(strs)) // create a new slice to hold the non-empty strings
+    for _, str := range strs {
+        if str != "" {
+            result = append(result, str) // append the non-empty string to the new slice
+        }
+    }
+    return result
+}
+
+
+//Check if the url is valid length.
+//Uses responsewriter to return status if not, and returns false. 
+//Takes the list of strings and the required length
+func isValidLength(strList []string, required int, w http.ResponseWriter) bool{
+
+	strList = removeEmptyStrings(strList); //Remove empty strings
+	
+	// Check if path contains required variables
+	if len(strList) != required {
+		log.Println("Error on amount of parameters! Should be ", required, ", was", len(strList))
+		http.Error(w, "Invalid request path. Either too long or short. Check docs for use.", http.StatusBadRequest)
+		return false
+	}
+
+	return true
+}

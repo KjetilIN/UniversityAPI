@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"log"
 	"net/http"
+	"strings"
 	"uniapi/internal/constants"
 	"uniapi/internal/serverstats"
 )
@@ -14,10 +15,31 @@ func getStatusCode(link string) string{
 	return resp.Status
 }
 
+//Checks if the diag url is of valid length
+func isDiagUrlValid(url string, w http.ResponseWriter) bool {
+	//Splitting the string
+	words := strings.Split(url, "/")
+
+	//Removing empty strings created by the string.split
+	words = removeEmptyStrings(words) 
+	if(len(words) != 3){
+		log.Println("Bad request. Url not long enough. Should be 3, was ", len(words))
+		http.Error(w, "Bad request. Longer than required", http.StatusBadRequest)
+		return false
+	}
+	return true
+}
+
 func DiagHandler(w http.ResponseWriter, r *http.Request){
 	//Head Information
 	w.Header().Set("content-type", "application/json")
-	
+
+	//check the url 
+	urlStatus := isDiagUrlValid(r.URL.Path, w);
+	if(!urlStatus){
+		return
+	}
+
 	//Information for the client 
 	info := constants.StatusInfo{
 		UniApi: getStatusCode(constants.UNI_API_URL_PROD),
