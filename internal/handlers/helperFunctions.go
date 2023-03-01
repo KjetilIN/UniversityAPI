@@ -27,7 +27,7 @@ func getUniversitiesWithName(searchWord string) (*http.Response, error) {
 	}
 
 	//Logging the request
-	log.Println("GET from UniApi: " + URL)
+	log.Println("GET with getUniversitiesWithName: " + URL)
 
 	// Send the request using the shared http.Client
 	resp, err := httpClient.Do(req)
@@ -51,7 +51,7 @@ func getCountriesFromCountryName(country string) (*http.Response, error) {
 	}
 
 	//Logging the request
-	log.Println("GET using country name: ", URL)
+	log.Println("GET with getCountriesFromCountryName: ", URL)
 
 	// Send the request using the shared http.Client
 	resp, err := httpClient.Do(req)
@@ -113,7 +113,7 @@ func getBorderCountries(country string) ([]string, error) {
 	}
 
 	//logging the request
-	log.Println("GET countries that are on the border : ", URL)
+	log.Println("GET countries that are on the border: ", URL)
 
 	// Send the request using the shared http.Client
 	resp, err := httpClient.Do(req)
@@ -212,12 +212,13 @@ func addCountryInfoToUniversities(w http.ResponseWriter, uniStructs []constants.
 }
 
 //Used to remove empty strings in a list
-//Comes from an error on splitting an url. /uni/v1/diag will turn into length of 5
-func removeEmptyStrings(strs []string) []string {
-    result := make([]string, 0, len(strs)) // create a new slice to hold the non-empty strings
-    for _, str := range strs {
-        if str != "" {
-            result = append(result, str) // append the non-empty string to the new slice
+//Comes from an error on splitting an url. 
+// /uni/v1/diag will turn into length of 5, because of this bug 
+func removeEmptyStrings(stringList []string) []string {
+    result := make([]string, 0, len(stringList)) // create a new slice to hold the non-empty strings
+    for _, currentString := range stringList {
+        if currentString != "" {
+            result = append(result, currentString) // append the non-empty string to the new slice
         }
     }
     return result
@@ -242,7 +243,7 @@ func isOfValidLength(strList []string, required int, w http.ResponseWriter) bool
 }
 
 
-//Check if it uses the allowed request type
+//For endpoints where a GET request is the only allowed method, check if the request is a GET requests. 
 func isCorrectRequestMethod(r *http.Request) bool{
 	//Check if it is a GET request
 	if(r.Method != http.MethodGet){

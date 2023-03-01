@@ -20,7 +20,6 @@ func UniInfoHandler(w http.ResponseWriter, r *http.Request){
 		return
 	}
 
-
 	//Get the search word from the path of the url 
 	search := strings.TrimPrefix(r.URL.Path, constants.UNI_INFO_PATH)
 
