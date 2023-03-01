@@ -233,13 +233,13 @@ The service also provide a set of tests for the code. These tests are designed t
 To run tests: <br>
 
 ```terminal
-	go test ./test/
+	go test ./...
 ```
 
 And to see the coverage rate, use: <br>
 
 ```terminal
-	go test -coverpkg=./... ./test/
+	go test -coverpkg=./... ./...
 ```
 
 

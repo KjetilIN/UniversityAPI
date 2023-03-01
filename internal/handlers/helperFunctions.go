@@ -15,7 +15,7 @@ var httpClient = &http.Client{
 }
 
 // Function that setup the GET request and return error
-func GetFromUniAPI(searchWord string) (*http.Response, error) {
+func getFromUniAPI(searchWord string) (*http.Response, error) {
 	// Building the url 
 	URL := constants.UNI_API_URL_PROD + "/search?name=" + searchWord
 	
@@ -39,7 +39,7 @@ func GetFromUniAPI(searchWord string) (*http.Response, error) {
 }
 
 // Function that setup the GET request and return response and error
-func GetFromCountryFromName(country string) (*http.Response, error) {
+func getFromCountryFromName(country string) (*http.Response, error) {
 	// URL
 	URL := constants.COUNTRY_API_NAME_URL_PROD + "/" + country
 
@@ -63,7 +63,7 @@ func GetFromCountryFromName(country string) (*http.Response, error) {
 }
 
 // Function gets the country name from the api
-func GetCountryFromAlphaCode(code string) (string, error) {
+func getCountryFromAlphaCode(code string) (string, error) {
 	// URL
 	URL := constants.COUNTRY_API_ALPHA_URL_PROD + "/" + code
 
@@ -95,7 +95,7 @@ func GetCountryFromAlphaCode(code string) (string, error) {
 }
 
 // Get the list of alpha codes from the body
-func GetBorderCountry(country string) ([]string, error) {
+func getBorderCountry(country string) ([]string, error) {
 	// The url for the request
 	URL := constants.COUNTRY_API_NAME_URL_PROD+"/"+country
 
@@ -126,7 +126,7 @@ func GetBorderCountry(country string) ([]string, error) {
 }
 
 // Function that setup the GET request and return response and error
-func GetAllFromUniAPI(country string, middle string) (*http.Response, error) {
+func getAllFromUniAPI(country string, middle string) (*http.Response, error) {
 	// URL
 	URL := constants.UNI_API_URL_PROD + "/search?name=" + middle + "&country=" + country
 
@@ -150,7 +150,7 @@ func GetAllFromUniAPI(country string, middle string) (*http.Response, error) {
 }
 
 // Takes the response from the UniApi and responsewriter. Returns list of UniversityInfo
-func AddCountryInfoByName(w http.ResponseWriter, uniStructs []constants.UniStruct) []constants.UniversityInfo {
+func addCountryInfoByName(w http.ResponseWriter, uniStructs []constants.UniStruct) []constants.UniversityInfo {
 
 	// Sort the list of uni struct by country
 	sort.Slice(uniStructs, func(i, j int) bool {
@@ -169,7 +169,7 @@ func AddCountryInfoByName(w http.ResponseWriter, uniStructs []constants.UniStruc
 		// Only do a new GET request if the University is in a different country. Only one get request
 		if uni.Country != currentCountry {
 			// DO API REQUEST and set the new country info struct
-			countryResponse, countryErr := GetFromCountryFromName(uni.Country)
+			countryResponse, countryErr := getFromCountryFromName(uni.Country)
 			if countryErr != nil {
 				log.Println("Error getting country by name method: ", countryErr.Error())
 				http.Error(w, "Invalid request for " + uni.Country, http.StatusBadRequest)

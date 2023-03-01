@@ -1,10 +1,9 @@
-package test
+package handlers
 
 import (
 	"encoding/json"
 	"testing"
 	"uniapi/internal/constants"
-	"uniapi/internal/handlers"
 )
 
 func TestGetFromUniApi_Positive(t *testing.T) {
@@ -12,7 +11,7 @@ func TestGetFromUniApi_Positive(t *testing.T) {
 	//Search word
 	search := "Norway"
 
-	resp, err := handlers.GetFromUniAPI(search)
+	resp, err := getFromUniAPI(search)
 
 	if(err != nil){
 		t.Fatal("TestGetFromUniApiPositive: Error on Positive Test for ", search)
@@ -47,7 +46,7 @@ func TestGetFromUniApi_Negative(t *testing.T) {
 	//Search word is random and no result is aspected 
 	search := "swdfghjkjhgfdsasdfghjkjhgfdsasdfghjkjhgfdsasdfghjk";
 
-	resp, _ := handlers.GetFromUniAPI(search);
+	resp, _ := getFromUniAPI(search);
 
 	//Decoding into struct 
 	var uniStruct []constants.UniStruct
@@ -70,7 +69,7 @@ func TestGetCountryFromAlphaCode_Positive(t *testing.T) {
 	//Code that should give positive result:
 	code :="NO"
 
-	resp, err := handlers.GetCountryFromAlphaCode(code)
+	resp, err := getCountryFromAlphaCode(code)
 
 	//No error
 	if(err != nil){
@@ -92,7 +91,7 @@ func TestGetCountryFromAlphaCode_Negative(t *testing.T) {
 	//Code that should give Negative result:
 	code :="PYTHONISBEST"
 
-	resp, err := handlers.GetCountryFromAlphaCode(code)
+	resp, err := getCountryFromAlphaCode(code)
 
 	//Expect no error 
 	if(err != nil){
@@ -114,7 +113,7 @@ func TestGetBorderCountry_Positive(t *testing.T) {
 	//Country we want to get border country from 
 	country:= "Norway"
 
-	resp, err := handlers.GetBorderCountry(country)
+	resp, err := getBorderCountry(country)
 
 	if(err != nil){
 		t.Fatal("TestGetBorderCountryPositive: Got error")
@@ -134,7 +133,7 @@ func TestGetBorderCountry_Negative(t *testing.T) {
 	//Country we want to get border country from 
 	country:= "THIS_IS_NO_COUNTRY"
 
-	resp, err := handlers.GetBorderCountry(country)
+	resp, err := getBorderCountry(country)
 
 	if(err != nil){
 		t.Fatal("TestGetBorderCountryNegative: Did get an error")
@@ -154,7 +153,7 @@ func TestGetAllFromUniAPI_Positive(t *testing.T) {
 	middle :="science"
 	country :="Norway"
 
-	resp, err := handlers.GetAllFromUniAPI(country,middle)
+	resp, err := getAllFromUniAPI(country,middle)
 
 	if (err != nil){
 		t.Fatal("TestGetAllFromUniAPI_Positive: Error on method, should be none.")
@@ -184,7 +183,7 @@ func TestGetAllFromUniAPI_Negative(t *testing.T) {
 	middle :="A_MASSIVE_WORD_THAT_DONT_GIVE_RESULTS"
 	country :="Norway"
 
-	resp, err := handlers.GetAllFromUniAPI(country,middle)
+	resp, err := getAllFromUniAPI(country,middle)
 
 	if (err != nil){
 		t.Fatal("TestGetAllFromUniAPI_Negative: Error on method, should be none.")
