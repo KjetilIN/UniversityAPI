@@ -26,6 +26,8 @@ The service provide a set of endpoints:
 /unisearcher/{VERSION}/diag/
 ```
 
+**Note!** There are no default handler/endpoint!
+
 Each endpoint has to be used in a certain way. There will be a response that can give you a hint of what is done wrong.
 
 ## University Information 
