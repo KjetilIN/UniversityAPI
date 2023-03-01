@@ -228,14 +228,14 @@ func removeEmptyStrings(stringList []string) []string {
 //Check if the url is valid length.
 //Uses responsewriter to return status if not, and returns false. 
 //Takes the list of strings and the required length
-func isOfValidLength(strList []string, required int, w http.ResponseWriter) bool{
+func isOfValidLength(strList []string, required int,message string , w http.ResponseWriter) bool{
 	//Remove empty strings
 	strList = removeEmptyStrings(strList); 
 	
 	// Check if path contains required variables
 	if len(strList) != required {
 		log.Println("Error on amount of parameters! Should be ", required, ", was", len(strList))
-		http.Error(w, "Invalid request path. Either too long or short. Check docs for use.", http.StatusBadRequest)
+		http.Error(w, "Invalid request path. \n"+ message + "\nCheck docs for use.", http.StatusBadRequest)
 		return false
 	}
 

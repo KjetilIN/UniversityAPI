@@ -27,7 +27,7 @@ func NeighborUniHandler(w http.ResponseWriter, r *http.Request) {
 	pathParts = removeEmptyStrings(pathParts); //Remove empty strings
 	
 	// Check if path contains required variables
-	isValid := isOfValidLength(pathParts, 5,w);
+	isValid := isOfValidLength(pathParts, 5,"Please add both country and middle.",w);
 	if(!isValid){
 		return
 	}
@@ -54,7 +54,7 @@ func NeighborUniHandler(w http.ResponseWriter, r *http.Request) {
 	codes, borderError := getBorderCountries(countryName);
 	if borderError != nil{
 		log.Println("Error on get border country: " + err.Error())
-		http.Error(w, "No border countries found", http.StatusNoContent)
+		http.Error(w, "No border countries found for: " + countryName, http.StatusBadRequest)
 		return 
 	}
 

@@ -24,7 +24,7 @@ func UniInfoHandler(w http.ResponseWriter, r *http.Request){
 	search := strings.TrimPrefix(r.URL.Path, constants.UNI_INFO_PATH)
 
 	//Check if valid length, error is handled by the method
-	isValid :=isOfValidLength(strings.Split(search, "/"),3,w);
+	isValid :=isOfValidLength(strings.Split(r.URL.Path, "/"),4,"Please add a search keyword(s).",w);
 	if(!isValid){
 		//Only return because the method handles the errors. 
 		return
@@ -49,7 +49,7 @@ func UniInfoHandler(w http.ResponseWriter, r *http.Request){
 		return
 	}else if (len(uniStructs) == 0){
 		log.Println("No results for following url: " + constants.UNI_API_URL_PROD + "/search?name=" + search)
-		http.Error(w, "No results for keyword: " + search, http.StatusNoContent)
+		http.Error(w, "No results for keyword: " + search, http.StatusBadRequest)
 		return 
 	}
 

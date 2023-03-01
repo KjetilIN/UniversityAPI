@@ -243,5 +243,12 @@ And to see the coverage rate, use: <br>
 ```
 
 
+## A note on status codes used in the service:
 
+It is important to note that receiving a 400 status code from the service does not always indicate an internal error. It is possible that the server processed the request successfully but did not have any content to return to the client. Therefore, it is recommended to always check the status message associated with the response to determine the exact nature of the error. The status message can provide valuable information to help troubleshoot the issue and determine the appropriate course of action. 
 
+<br>
+
+Instead of a **203**, that you would expect to get, you get a **4xx** status code:
+
+Why? Because this is interpreted as a client error. The client did not use the endpoint correctly and got no content back. (In contrast to another interpretation, where you would get **203** because the client did nothing wrong, **we blame the client**)
