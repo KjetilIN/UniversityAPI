@@ -4,11 +4,12 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"testing"
+	"uniapi/internal/constants"
 )
 
 func TestCountryMockHandler(t *testing.T) {
-    // Testing a get request
-    getRequest, _ := http.NewRequest("GET", "mock/country", nil)
+    // Testing a get request on local host 
+    getRequest, _ := http.NewRequest("GET", constants.MOCK_COUNTRY_API_URL, nil)
     response := httptest.NewRecorder()
 	//Executing the handler 
     CountryMockHandler(response, getRequest)
@@ -26,7 +27,7 @@ func TestCountryMockHandler(t *testing.T) {
     }
 
     // Test case 2: POST request
-    postRequest, _ := http.NewRequest("POST", "/country", nil)
+    postRequest, _ := http.NewRequest("POST", constants.MOCK_COUNTRY_API_URL, nil)
     postResponse := httptest.NewRecorder()
     CountryMockHandler(postResponse, postRequest)
     resultPost := postResponse.Result()
@@ -38,7 +39,7 @@ func TestCountryMockHandler(t *testing.T) {
 
 func TestUniMockHandler(t *testing.T) {
     // Test case 1: GET request
-    req1, _ := http.NewRequest("GET", "/uni", nil)
+    req1, _ := http.NewRequest("GET", constants.MOCK_UNI_API_URL, nil)
     rr1 := httptest.NewRecorder()
     UniMockHandler(rr1, req1)
     result1 := rr1.Result()
@@ -53,7 +54,7 @@ func TestUniMockHandler(t *testing.T) {
     }
 
     // Test case 2: POST request
-    req2, _ := http.NewRequest("POST", "/uni", nil)
+    req2, _ := http.NewRequest("POST", constants.MOCK_UNI_API_URL, nil)
     rr2 := httptest.NewRecorder()
     UniMockHandler(rr2, req2)
     result2 := rr2.Result()
