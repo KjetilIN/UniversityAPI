@@ -33,7 +33,6 @@ func CountryMockHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 }
-
 // The uni mock handler 
 func UniMockHandler(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
