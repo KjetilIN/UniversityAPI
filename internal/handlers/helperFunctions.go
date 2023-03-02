@@ -19,7 +19,7 @@ var httpClient = &http.Client{
 // Function that setup the GET request and returns the response and  error
 func getUniversitiesWithName(searchWord string) (*http.Response, error) {
 	// Building the url 
-	URL := constants.UNI_API_URL_PROD + "/search?name=" + searchWord
+	URL := constants.UNI_API_URL_PROD + "/search?name=" + replaceSpaces(searchWord) 
 	
 	// Create a new GET request
 	req, err := http.NewRequest(http.MethodGet, URL, nil)
@@ -43,7 +43,7 @@ func getUniversitiesWithName(searchWord string) (*http.Response, error) {
 // Function that does a GET request with the given country name and return response and error
 func getCountriesFromCountryName(country string) (*http.Response, error) {
 	// URL
-	URL := constants.COUNTRY_API_NAME_URL_PROD + "/" + country
+	URL := constants.COUNTRY_API_NAME_URL_PROD + "/" + replaceSpaces(country)
 
 	// Create a new GET request
 	req, err := http.NewRequest(http.MethodGet, URL, nil)
@@ -141,7 +141,7 @@ func getBorderCountries(country string) ([]string, error) {
 // Function that setup the GET request and return response and error
 func getUniversitiesWithNameAndMiddle(country string, middle string) (*http.Response, error) {
 	// URL
-	URL := constants.UNI_API_URL_PROD + "/search?name=" + middle + "&country=" + country
+	URL := constants.UNI_API_URL_PROD + "/search?name=" + replaceSpaces(middle)  + "&country=" + country
 
 	// Create a new GET request
 	req, err := http.NewRequest(http.MethodGet, URL, nil)
@@ -255,7 +255,8 @@ func isCorrectRequestMethod(r *http.Request) bool{
 	return true
 }
 
-//Test for a function that takes a url and replace alle %20 with spaces
+//Test for a function that takes a url and replace all spaces with %20
 func replaceSpaces(url string) string {
-    return strings.ReplaceAll(url, "%20", " ")
+	trimmed := strings.TrimSpace(url)
+    return strings.ReplaceAll(trimmed, " ", "%20")
 }
