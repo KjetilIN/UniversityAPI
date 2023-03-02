@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	"sort"
+	"strings"
 	"time"
 	"uniapi/internal/constants"
 )
@@ -252,4 +253,9 @@ func isCorrectRequestMethod(r *http.Request) bool{
 	}
 
 	return true
+}
+
+//Test for a function that takes a url and replace alle %20 with spaces
+func replaceSpaces(url string) string {
+    return strings.ReplaceAll(url, "%20", " ")
 }

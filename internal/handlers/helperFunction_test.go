@@ -2,6 +2,9 @@ package handlers
 
 import (
 	"encoding/json"
+	"net/http"
+	"net/http/httptest"
+	"reflect"
 	"testing"
 	"uniapi/internal/constants"
 )
@@ -205,4 +208,99 @@ func TestGetAllFromUniAPI_Negative(t *testing.T) {
 		t.Error()
 	}
 
+}
+
+
+func TestRemoveEmptyStrings(t *testing.T) {
+    // Testing if given empty list of strings 
+    emptyList := []string{}
+    expected := []string{}
+    result := removeEmptyStrings(emptyList)
+    if !reflect.DeepEqual(result, expected) {
+        t.Errorf("Expected %v, but got %v", expected, result)
+    }
+
+    // Test with some empty strings 
+    listWithEmpty := []string{"", "hello", "", "world", ""}
+    expected = []string{"hello", "world"}
+    result = removeEmptyStrings(listWithEmpty)
+    if !reflect.DeepEqual(result, expected) {
+        t.Errorf("Expected %v, but got %v", expected, result)
+    }
+
+    // Test with no empty strings 
+    noEmptyList := []string{"hello", "world"}
+    expected = []string{"hello", "world"}
+    result = removeEmptyStrings(noEmptyList)
+    if !reflect.DeepEqual(result, expected) {
+        t.Errorf("Expected %v, but got %v", expected, result)
+    }
+}
+
+
+func TestIsOfValidLength(t *testing.T) {
+    // Test case with valid length 
+    strList1 := []string{"hello", "world"}
+    required1 := 2
+    message1 := "Invalid request path."
+    w1 := httptest.NewRecorder()
+    result1 := isOfValidLength(strList1, required1, message1, w1)
+    if result1 != true {
+        t.Errorf("Test case 1 failed: expected true, but got %v", result1)
+    }
+
+
+    // Test case with empty strings
+    strList3 := []string{"", "world", ""}
+    required3 := 2
+    message3 := "Invalid request path."
+    w3 := httptest.NewRecorder()
+    result3 := isOfValidLength(strList3, required3, message3, w3)
+    if result3 != false {
+        t.Errorf("Test case 3 failed: expected false, but got %v", result3)
+    }
+}
+
+
+func TestIsCorrectRequestMethod(t *testing.T) {
+    // Test for a GET request 
+    req1, _ := http.NewRequest("GET", "/", nil)
+    result1 := isCorrectRequestMethod(req1)
+    if result1 != true {
+        t.Error("Test case with GET failed!")
+    }
+
+    // Test for a POST request 
+    req2, _ := http.NewRequest("POST", "/", nil)
+    result2 := isCorrectRequestMethod(req2)
+    if result2 != false {
+        t.Error("Test case with POST failed!")
+    }
+}
+
+
+func TestReplaceSpaces(t *testing.T) {
+    // Test case with a single space
+    url1 := "http://localhost/hello%20world"
+    expected1 := "http://localhost/hello world"
+    result1 := replaceSpaces(url1)
+    if result1 != expected1 {
+        t.Error("Test case with single space failed")
+    }
+
+    // Test case with multiple spaces
+    url2 := "http://localhost/hello%20world%20and%20universe"
+    expected2 := "http://localhost/hello world and universe"
+    result2 := replaceSpaces(url2)
+    if result2 != expected2 {
+        t.Error("Test case with multiple spaces failed")
+    }
+
+    // Test case with no spaces
+    url3 := "http://localhost/helloworld"
+    expected3 := "http://localhost/helloworld"
+    result3 := replaceSpaces(url3)
+    if result3 != expected3 {
+        t.Errorf("Test case with no spaces spaces failed")
+    }
 }
