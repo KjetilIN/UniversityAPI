@@ -37,6 +37,7 @@ func UniInfoHandler(w http.ResponseWriter, r *http.Request){
 		http.Error(w, "Invalid request for " + search, http.StatusBadRequest)
 		return 
 	}
+	defer uniResponse.Body.Close()
 
 	// Prepare empty list of structs to populate
 	var uniStructs []constants.UniStruct

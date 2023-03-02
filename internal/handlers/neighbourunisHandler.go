@@ -76,7 +76,9 @@ func NeighborUniHandler(w http.ResponseWriter, r *http.Request) {
 			http.Error(w, "Invalid Request. See docs for usage.", http.StatusBadRequest)
 			return 
 		}
+		defer uniResponse.Body.Close()
 
+		//List of unstructs to populate 
 		var uniStruct []constants.UniStruct
 
 		// Decode struct
