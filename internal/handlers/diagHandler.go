@@ -10,9 +10,16 @@ import (
 )
 
 // Uses the http package to do a GET request on the given link. Returns the status
-func getStatusCode(link string) string{
-	resp, _ := http.Get(link)
-	return resp.Status
+func getStatusCode(link string) string {
+    resp, err := http.Get(link)
+    if err != nil {
+		// If error the service is most likely overloaded
+        log.Printf("Error getting response from %s: %v", link, err)
+        return "503 Service Unavailable"
+    }
+    defer resp.Body.Close()
+
+    return resp.Status
 }
 
 //Checks if the diag url is of valid length

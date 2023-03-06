@@ -13,7 +13,7 @@ import (
 
 // Create a reusable http.Client that is used by the uni info handler
 var httpClient = &http.Client{
-	Timeout: time.Second * 10, // Add a timeout to avoid hanging connections
+	Timeout: time.Second * 15, // Add a timeout to avoid hanging connections
 }
 
 // Function that setup the GET request and returns the response and  error

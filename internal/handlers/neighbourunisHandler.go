@@ -54,7 +54,7 @@ func NeighborUniHandler(w http.ResponseWriter, r *http.Request) {
 	codes, borderError := getBorderCountries(countryName);
 	if borderError != nil{
 		log.Println("Error on get border country: " + err.Error())
-		http.Error(w, "No border countries found for: " + countryName, http.StatusBadRequest)
+		http.Error(w, "No border countries found for: " + countryName + "\nCheck diag endpoint for API status!", http.StatusBadRequest)
 		return 
 	}
 
@@ -63,7 +63,7 @@ func NeighborUniHandler(w http.ResponseWriter, r *http.Request) {
 		currentCountryName, err := getCountryNameFromAlphaCode(code);
 		if err != nil{
 			log.Println("Error on get Country from the alpha code method: " + err.Error())
-			http.Error(w, "Invalid alpha code given: " + code, http.StatusBadRequest)
+			http.Error(w, "Invalid alpha code given: " + code + "\nCheck diag endpoint for API status!", http.StatusBadRequest)
 			return
 		}
 		// 2. Get all university that fit the country name and middle 
@@ -78,7 +78,7 @@ func NeighborUniHandler(w http.ResponseWriter, r *http.Request) {
 		}
 		defer uniResponse.Body.Close()
 
-		//List of unstructs to populate 
+		//List of uni structs to populate 
 		var uniStruct []constants.UniStruct
 
 		// Decode struct

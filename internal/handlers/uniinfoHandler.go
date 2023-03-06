@@ -34,7 +34,7 @@ func UniInfoHandler(w http.ResponseWriter, r *http.Request){
 	uniResponse, uniError := getUniversitiesWithName(search);
 	if uniError != nil {
 		log.Println("Error on get request to uni api: " + uniError.Error())
-		http.Error(w, "Invalid request for " + search, http.StatusBadRequest)
+		http.Error(w, "Invalid request for " + search + "\nCheck diag endpoint for API status!", http.StatusBadRequest)
 		return 
 	}
 	defer uniResponse.Body.Close()
